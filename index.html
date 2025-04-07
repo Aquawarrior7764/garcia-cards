@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Code Card Library</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <h1>QR Code Trading Card System</h1>
+
+  <section>
+    <h2>Generate QR Code</h2>
+    <input type="text" id="card-id" placeholder="Enter Card ID (e.g., card001)">
+    <button onclick="generateQRCode()">Generate</button>
+    <div id="qrcode"></div>
+  </section>
+
+  <section>
+    <h2>Scan QR Code</h2>
+    <div id="reader" style="width: 300px;"></div>
+    <p id="scan-result"></p>
+  </section>
+
+  <section>
+    <h2>Scanned Log</h2>
+    <ul id="scan-log"></ul>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

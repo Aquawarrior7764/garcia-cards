@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f9f9f9;
+  }
+  
+  h1, h2 {
+    color: #333;
+  }
+  
+  input, button {
+    padding: 8px;
+    margin: 5px 0;
+  }
+  
+  #qrcode {
+    margin-top: 10px;
+  }
+  
+  #scan-log {
+    margin-top: 10px;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
