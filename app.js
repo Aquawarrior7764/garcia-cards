@@ -78,5 +78,13 @@ function setupResetButton() {
 window.addEventListener("DOMContentLoaded", () => {
   loadScannedFromStorage();
   checkURLForCardScan();
+  // Check for redirect-scanned card
+const redirectedCard = localStorage.getItem("scannedCardRedirect");
+if (redirectedCard) {
+  localStorage.removeItem("scannedCardRedirect");
+  const newUrl = new URL(window.location.href);
+  newUrl.searchParams.set("card", redirectedCard);
+  window.location.href = newUrl.href;
+}
   setupResetButton();
 });
