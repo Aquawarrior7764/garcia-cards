@@ -9,6 +9,8 @@ function checkURLForCardScan() {
 
     if (!scannedCards.has(card)) {
       scannedCards.add(card);
+      updateScanCount();
+
       const li = document.createElement("li");
       li.textContent = `${card} ✔️`;
       document.getElementById("scan-log").appendChild(li);
@@ -16,6 +18,10 @@ function checkURLForCardScan() {
       alert(`Card "${card}" already scanned.`);
     }
   }
+}
+
+function updateScanCount() {
+  document.getElementById("scan-count").innerText = scannedCards.size;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
