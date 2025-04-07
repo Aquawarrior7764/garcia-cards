@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const card = params.get("card");
+
+    if (card) {
+      localStorage.setItem("scannedCardRedirect", card);
+      window.location.href = "https://garciacards.net";
+    } else {
+      document.body.innerText = "Invalid card redirect.";
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>
