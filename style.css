@@ -50,6 +50,22 @@ h2 {
   font-weight: bold;
 }
 
+#reset-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#reset-btn:hover {
+  background-color: #c9302c;
+}
+
 @media (min-width: 600px) {
   body {
     max-width: 600px;
