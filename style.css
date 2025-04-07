@@ -35,53 +35,81 @@ h2 {
   margin-bottom: 10px;
 }
 
-#scan-log {
-  list-style-type: none;
-  margin-top: 10px;
-  padding-left: 0;
-}
-
-#scan-log li {
-  padding: 8px;
-  margin-bottom: 6px;
-  border-radius: 5px;
+.card-placeholder, .card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
   font-weight: bold;
-  border: 1px solid;
+  text-align: center;
 }
 
-/* 🎨 Rarity-based coloring */
+.card-placeholder {
+  background-color: #e0e0e0;
+  color: #757575;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.card {
+  padding: 10px;
+  color: white;
+}
+
+.locked {
+  background-color: #424242;
+}
+
+.locked p {
+  margin: 0;
+  font-size: 24px;
+}
+
 .rarity-common {
-  background-color: #d4edda;
-  border-color: #28a745;
+  background-color: #4caf50;
 }
 
 .rarity-uncommon {
-  background-color: #d1ecf1;
-  border-color: #17a2b8;
+  background-color: #2196f3;
 }
 
 .rarity-rare {
-  background-color: #fff3cd;
-  border-color: #ffc107;
+  background-color: #ffeb3b;
+  color: #000;
 }
 
 .rarity-epic {
-  background-color: #f3e5f5;
-  border-color: #9c27b0;
+  background-color: #9c27b0;
 }
 
 .rarity-legendary {
-  background-color: #fde2e2;
-  border-color: #ff5722;
+  background-color: #ff5722;
 }
 
-/* 🔘 Buttons */
-#reset-btn {
-  background-color: #d9534f;
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
 }
 
-#reset-btn:hover {
-  background-color: #c9302c;
+#toggle-library-btn {
+  background-color: #00796b;
+}
+
+#toggle-library-btn:hover {
+  background-color: #004d40;
 }
 
 #toggle-scanner-btn {
@@ -92,19 +120,18 @@ h2 {
   background-color: #004ea2;
 }
 
-#reset-btn,
-#toggle-scanner-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 14px;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
+#reset-btn {
+  background-color: #d9534f;
 }
 
-/* 📷 Scanner area */
+#reset-btn:hover {
+  background-color: #c9302c;
+}
+
+.hidden {
+  display: none;
+}
+
 #scanner-container {
   margin-top: 20px;
   text-align: center;
@@ -117,7 +144,6 @@ h2 {
   background: black;
 }
 
-/* 📱 Mobile optimization */
 @media (min-width: 600px) {
   body {
     max-width: 600px;
