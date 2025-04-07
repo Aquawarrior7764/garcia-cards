@@ -42,49 +42,15 @@ h2 {
 }
 
 #scan-log li {
-  background: #e0f7e9;
-  border: 1px solid #88d4ab;
   padding: 8px;
   margin-bottom: 6px;
   border-radius: 5px;
   font-weight: bold;
+  border: 1px solid;
 }
 
-#reset-btn,
-#toggle-scanner-btn {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 14px;
-  background-color: #0066cc;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-}
-
-#reset-btn:hover {
-  background-color: #004ea2;
-}
-
-#scanner-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-#scanner-video {
-  width: 100%;
-  border-radius: 8px;
-  max-height: 300px;
-  background: black;
-}
-
-@media (min-width: 600px) {
-  body {
-    max-width: 600px;
-    margin: auto;
-  }
-  .rarity-common {
+/* 🎨 Rarity-based coloring */
+.rarity-common {
   background-color: #d4edda;
   border-color: #28a745;
 }
@@ -109,4 +75,52 @@ h2 {
   border-color: #ff5722;
 }
 
+/* 🔘 Buttons */
+#reset-btn {
+  background-color: #d9534f;
+}
+
+#reset-btn:hover {
+  background-color: #c9302c;
+}
+
+#toggle-scanner-btn {
+  background-color: #0066cc;
+}
+
+#toggle-scanner-btn:hover {
+  background-color: #004ea2;
+}
+
+#reset-btn,
+#toggle-scanner-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* 📷 Scanner area */
+#scanner-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#scanner-video {
+  width: 100%;
+  border-radius: 8px;
+  max-height: 300px;
+  background: black;
+}
+
+/* 📱 Mobile optimization */
+@media (min-width: 600px) {
+  body {
+    max-width: 600px;
+    margin: auto;
+  }
 }
