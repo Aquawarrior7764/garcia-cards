@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>QR Code Card Library</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Garcia Cards</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>QR Code Trading Card System</h1>
-
-  <section>
-    <h2>Generate QR Code</h2>
-    <input type="text" id="card-id" placeholder="Enter Card ID (e.g., card001)">
-    <button onclick="generateQRCode()">Generate</button>
-    <div id="qrcode"></div>
-  </section>
+  <h1>Garcia Cards</h1>
 
   <p id="scan-result">Scan a card QR to begin logging.</p>
 
   <section>
-    <h2>Scanned Log</h2>
+    <h2>Scanned Log (<span id="scan-count">0</span> total)</h2>
     <ul id="scan-log"></ul>
   </section>
 
