@@ -132,5 +132,67 @@ window.addEventListener("DOMContentLoaded", () => {
   loadScannedCards();
   checkURLForCardScan();
   setupResetButton();
+  // 👇 QR SCANNER FEATURE (Toggle with button)
+let videoStream = null;
+let scannerRunning = false;
+const canvas = document.getElementById("scanner-canvas");
+const context = canvas.getContext("2d");
+const video = document.getElementById("scanner-video");
+const scannerContainer = document.getElementById("scanner-container");
+const toggleBtn = document.getElementById("toggle-scanner-btn");
+
+toggleBtn.addEventListener("click", async () => {
+  if (scannerRunning) {
+    stopScanner();
+  } else {
+    await startScanner();
+  }
+});
+
+async function startScanner() {
+  try {
+    videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    video.srcObject = videoStream;
+    video.setAttribute("playsinline", true);
+    video.play();
+    scannerContainer.style.display = "block";
+    scannerRunning = true;
+    requestAnimationFrame(scanLoop);
+  } catch (err) {
+    alert("Camera access denied or unavailable.");
+  }
+}
+
+function stopScanner() {
+  if (videoStream) {
+    videoStream.getTracks().forEach((track) => track.stop());
+  }
+  scannerRunning = false;
+  scannerContainer.style.display = "none";
+}
+
+function scanLoop() {
+  if (!scannerRunning) return;
+
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+    if (code && code.data.includes("card=")) {
+      const url = new URL(code.data);
+      const cardId = url.searchParams.get("card");
+      if (cardId && CARD_LIBRARY[cardId] && !scannedCards.has(cardId)) {
+        window.location.href = `https://garciacards.net/redirect.html?card=${cardId}`;
+        stopScanner();
+        return;
+      }
+    }
+  }
+
+  requestAnimationFrame(scanLoop);
+}
 });
 
