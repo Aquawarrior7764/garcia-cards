@@ -14,6 +14,17 @@ const CARD_LIBRARY = {
 
 let scannedCards = new Set();
 
+// 🛠️ Fix: Run this before anything else, as early as possible
+(function handleRedirectEarly() {
+  const redirectedCard = localStorage.getItem("scannedCardRedirect");
+  if (redirectedCard) {
+    localStorage.removeItem("scannedCardRedirect");
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("card", redirectedCard);
+    window.location.replace(currentUrl.href); // cleaner, no back button entry
+  }
+})();
+
 function loadScannedFromStorage() {
   const saved = JSON.parse(localStorage.getItem("scannedCards"));
   if (saved && Array.isArray(saved)) {
@@ -78,13 +89,5 @@ function setupResetButton() {
 window.addEventListener("DOMContentLoaded", () => {
   loadScannedFromStorage();
   checkURLForCardScan();
-  // Check for redirect-scanned card
-const redirectedCard = localStorage.getItem("scannedCardRedirect");
-if (redirectedCard) {
-  localStorage.removeItem("scannedCardRedirect");
-  const newUrl = new URL(window.location.href);
-  newUrl.searchParams.set("card", redirectedCard);
-  window.location.href = newUrl.href;
-}
   setupResetButton();
 });
