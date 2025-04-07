@@ -1,4 +1,3 @@
-// Encrypted card ID to public-facing name and rarity
 const CARD_LIBRARY = {
   gcu1: { name: "GarciaCardCommon1", rarity: "Common" },
   gcu2: { name: "GarciaCardCommon2", rarity: "Common" },
@@ -69,7 +68,7 @@ function loadScannedCards() {
       for (const cardId of scannedCards) {
         if (CARD_LIBRARY[cardId]) {
           const { name, rarity } = CARD_LIBRARY[cardId];
-          addToLog(cardId, name, rarity);
+          addToLog(name, rarity);
         }
       }
     } catch {}
@@ -82,9 +81,10 @@ function updateScanCount() {
   document.getElementById("scan-count").innerText = scannedCards.size;
 }
 
-function addToLog(cardId, name, rarity) {
+function addToLog(name, rarity) {
   const li = document.createElement("li");
-  li.textContent = `${cardId} - ${name} (${rarity}) ✔️`;
+  li.textContent = `${name} (${rarity}) ✔️`;
+  li.classList.add("rarity-" + rarity.toLowerCase());
   document.getElementById("scan-log").appendChild(li);
 }
 
@@ -100,7 +100,7 @@ function checkURLForCardScan() {
   }
 
   if (scannedCards.has(cardId)) {
-    alert(`Card "${cardId}" already scanned.`);
+    alert(`Card already scanned.`);
     return;
   }
 
@@ -110,7 +110,7 @@ function checkURLForCardScan() {
   saveScannedCards();
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${rarity})`;
-  addToLog(cardId, name, rarity);
+  addToLog(name, rarity);
   updateScanCount();
 }
 
@@ -128,11 +128,7 @@ function setupResetButton() {
   });
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  loadScannedCards();
-  checkURLForCardScan();
-  setupResetButton();
-  // 👇 QR SCANNER FEATURE (Toggle with button)
+// ✅ QR SCANNER SETUP (Fixes jsQR detection + reroutes correctly)
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -179,20 +175,27 @@ function scanLoop() {
     canvas.width = video.videoWidth;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const code = jsQR(imageData.data, imageData.width, imageData.height);
+    const code = jsQR(imageData.data, canvas.width, canvas.height);
 
     if (code && code.data.includes("card=")) {
-      const url = new URL(code.data);
-      const cardId = url.searchParams.get("card");
-      if (cardId && CARD_LIBRARY[cardId] && !scannedCards.has(cardId)) {
-        window.location.href = `https://garciacards.net/redirect.html?card=${cardId}`;
-        stopScanner();
-        return;
-      }
+      try {
+        const parsedURL = new URL(code.data);
+        const cardId = parsedURL.searchParams.get("card");
+        if (cardId && CARD_LIBRARY[cardId] && !scannedCards.has(cardId)) {
+          window.location.href = `https://garciacards.net/redirect.html?card=${cardId}`;
+          stopScanner();
+          return;
+        }
+      } catch (e) {}
     }
   }
 
   requestAnimationFrame(scanLoop);
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadScannedCards();
+  checkURLForCardScan();
+  setupResetButton();
 });
 
