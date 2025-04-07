@@ -50,11 +50,12 @@ h2 {
   font-weight: bold;
 }
 
-#reset-btn {
+#reset-btn,
+#toggle-scanner-btn {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 14px;
-  background-color: #d9534f;
+  background-color: #0066cc;
   color: white;
   border: none;
   border-radius: 6px;
@@ -63,7 +64,19 @@ h2 {
 }
 
 #reset-btn:hover {
-  background-color: #c9302c;
+  background-color: #004ea2;
+}
+
+#scanner-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#scanner-video {
+  width: 100%;
+  border-radius: 8px;
+  max-height: 300px;
+  background: black;
 }
 
 @media (min-width: 600px) {
