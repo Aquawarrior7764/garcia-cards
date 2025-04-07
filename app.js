@@ -1,91 +1,79 @@
 const CARD_LIBRARY = {
-  gcu1: { name: "GarciaCardCommon1", rarity: "Common" },
-  gcu2: { name: "GarciaCardCommon2", rarity: "Common" },
-  guc1: { name: "GarciaCardUncommon1", rarity: "Uncommon" },
-  guc2: { name: "GarciaCardUncommon2", rarity: "Uncommon" },
-  grc1: { name: "GarciaCardRare1", rarity: "Rare" },
-  grc2: { name: "GarciaCardRare2", rarity: "Rare" },
-  gec1: { name: "GarciaCardEpic1", rarity: "Epic" },
-  gec2: { name: "GarciaCardEpic2", rarity: "Epic" },
-  glc1: { name: "GarciaCardLegendary1", rarity: "Legendary" },
-  glc2: { name: "GarciaCardLegendary2", rarity: "Legendary" }
+  gcu1: { name: "GarciaCardCommon1", rarity: "common" },
+  gcu2: { name: "GarciaCardCommon2", rarity: "common" },
+  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon" },
+  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon" },
+  grc1: { name: "GarciaCardRare1", rarity: "rare" },
+  grc2: { name: "GarciaCardRare2", rarity: "rare" },
+  gec1: { name: "GarciaCardEpic1", rarity: "epic" },
+  gec2: { name: "GarciaCardEpic2", rarity: "epic" },
+  glc1: { name: "GarciaCardLegendary1", rarity: "legendary" },
+  glc2: { name: "GarciaCardLegendary2", rarity: "legendary" }
 };
 
 let scannedCards = new Set();
 
-(function handleRedirectEarly() {
-  const redirectedCard = localStorage.getItem("scannedCardRedirect");
-  if (redirectedCard) {
-    localStorage.removeItem("scannedCardRedirect");
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set("card", redirectedCard);
-    window.location.replace(currentUrl.href);
+function loadScannedFromStorage() {
+  const saved = JSON.parse(localStorage.getItem("scannedCards"));
+  if (saved && Array.isArray(saved)) {
+    scannedCards = new Set(saved);
   }
-})();
-
-// Cookie helpers
-function setCookie(name, value, days) {
-  let expires = "";
-  if (days) {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
-}
-
-function getCookie(name) {
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i].trim();
-    if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
-  }
-  return null;
+  updateLibrary();
 }
 
 function saveScannedCards() {
-  const data = JSON.stringify([...scannedCards]);
-  try {
-    localStorage.setItem("scannedCards", data);
-  } catch {
-    setCookie("scannedCards", data, 365);
-  }
+  localStorage.setItem("scannedCards", JSON.stringify([...scannedCards]));
 }
 
-function loadScannedCards() {
-  let data;
-  try {
-    data = localStorage.getItem("scannedCards");
-  } catch {
-    data = getCookie("scannedCards");
-  }
+function updateLibrary() {
+  const container = document.getElementById("card-library");
+  const counter = document.getElementById("collection-count");
+  const total = Object.keys(CARD_LIBRARY).length;
+  const unlocked = [...scannedCards].length;
 
-  if (data) {
-    try {
-      const parsed = JSON.parse(data);
-      scannedCards = new Set(parsed);
-      for (const cardId of scannedCards) {
-        if (CARD_LIBRARY[cardId]) {
-          const { name, rarity } = CARD_LIBRARY[cardId];
-          addToLog(name, rarity);
-        }
-      }
-    } catch {}
-  }
+  container.innerHTML = "";
+  counter.textContent = unlocked;
 
-  updateScanCount();
+  Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
+    const div = document.createElement("div");
+    div.classList.add("card");
+
+    if (scannedCards.has(cardId)) {
+      div.classList.add(`rarity-${cardData.rarity.toLowerCase()}`);
+      div.innerText = `${cardData.name} (${capitalize(cardData.rarity)})`;
+    } else {
+      div.classList.add("locked");
+      div.innerHTML = `<p>???</p>`;
+    }
+
+    container.appendChild(div);
+  });
 }
 
-function updateScanCount() {
-  document.getElementById("scan-count").innerText = scannedCards.size;
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function addToLog(name, rarity) {
-  const li = document.createElement("li");
-  li.textContent = `${name} (${rarity}) ✔️`;
-  li.classList.add("rarity-" + rarity.toLowerCase());
-  document.getElementById("scan-log").appendChild(li);
+function handleScannedCard(cardId) {
+  if (!(cardId in CARD_LIBRARY)) {
+    document.getElementById("scan-result").innerText = `Unknown card: ${cardId}`;
+    return;
+  }
+
+  if (!scannedCards.has(cardId)) {
+    scannedCards.add(cardId);
+    saveScannedCards();
+  }
+
+  const { name, rarity } = CARD_LIBRARY[cardId];
+
+  const recent = document.getElementById("recent-card");
+  recent.className = "card rarity-" + rarity.toLowerCase();
+  recent.innerText = `${name} (${capitalize(rarity)})`;
+
+  document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
+
+  updateLibrary();
 }
 
 function checkURLForCardScan() {
@@ -94,41 +82,27 @@ function checkURLForCardScan() {
 
   if (!cardId) return;
 
-  if (!(cardId in CARD_LIBRARY)) {
-    document.getElementById("scan-result").innerText = `Unknown card: ${cardId}`;
-    return;
-  }
-
-  if (scannedCards.has(cardId)) {
-    alert(`Card already scanned.`);
-    return;
-  }
-
-  const { name, rarity } = CARD_LIBRARY[cardId];
-
-  scannedCards.add(cardId);
-  saveScannedCards();
-
-  document.getElementById("scan-result").innerText = `Scanned: ${name} (${rarity})`;
-  addToLog(name, rarity);
-  updateScanCount();
+  handleScannedCard(cardId);
 }
 
-function setupResetButton() {
-  const resetBtn = document.getElementById("reset-btn");
-  resetBtn.addEventListener("click", () => {
+function setupButtons() {
+  document.getElementById("reset-btn").addEventListener("click", () => {
     if (confirm("Reset your collection? This cannot be undone.")) {
       localStorage.removeItem("scannedCards");
-      setCookie("scannedCards", "", -1);
       scannedCards.clear();
-      document.getElementById("scan-log").innerHTML = "";
-      document.getElementById("scan-count").innerText = "0";
+      updateLibrary();
       document.getElementById("scan-result").innerText = "Scan a card QR to begin logging.";
+      document.getElementById("recent-card").innerHTML = "<p>No cards scanned yet.</p>";
+      document.getElementById("recent-card").className = "card-placeholder";
     }
+  });
+
+  document.getElementById("toggle-library-btn").addEventListener("click", () => {
+    document.getElementById("library-container").classList.toggle("hidden");
   });
 }
 
-// ✅ QR SCANNER SETUP (Fixes jsQR detection + reroutes correctly)
+// QR Scanner Logic (unchanged from previous version)
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -181,7 +155,7 @@ function scanLoop() {
       try {
         const parsedURL = new URL(code.data);
         const cardId = parsedURL.searchParams.get("card");
-        if (cardId && CARD_LIBRARY[cardId] && !scannedCards.has(cardId)) {
+        if (cardId && CARD_LIBRARY[cardId]) {
           window.location.href = `https://garciacards.net/redirect.html?card=${cardId}`;
           stopScanner();
           return;
@@ -194,8 +168,8 @@ function scanLoop() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  loadScannedCards();
+  loadScannedFromStorage();
   checkURLForCardScan();
-  setupResetButton();
+  setupButtons();
 });
-
+    
