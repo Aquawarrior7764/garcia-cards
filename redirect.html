@@ -3,18 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <title>Redirecting...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
     const params = new URLSearchParams(window.location.search);
-    const card = params.get("card");
+    const cardId = params.get("card");
 
-    if (card) {
-      localStorage.setItem("scannedCardRedirect", card);
-      window.location.href = "https://garciacards.net";
+    if (cardId) {
+      // Save scanned card in localStorage
+      localStorage.setItem("scannedCardRedirect", cardId);
+      // Redirect to root/index page with clean URL
+      window.location.href = "/";
     } else {
-      document.body.innerText = "Invalid card redirect.";
+      // If no card param, just go to home
+      window.location.href = "/";
     }
   </script>
 </head>
 <body>
+  <p>Redirecting...</p>
 </body>
 </html>
