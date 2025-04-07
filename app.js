@@ -11,6 +11,17 @@ const CARD_LIBRARY = {
   glc2: { name: "GarciaCardLegendary2", rarity: "legendary" }
 };
 
+// ✅ Fix: Handle scannedCardRedirect BEFORE anything else
+(function handleRedirectEarly() {
+  const redirectedCard = localStorage.getItem("scannedCardRedirect");
+  if (redirectedCard) {
+    localStorage.removeItem("scannedCardRedirect");
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("card", redirectedCard);
+    window.location.replace(currentUrl.href);
+  }
+})();
+
 let scannedCards = new Set();
 
 function loadScannedFromStorage() {
@@ -39,7 +50,7 @@ function updateLibrary() {
     div.classList.add("card");
 
     if (scannedCards.has(cardId)) {
-      div.classList.add(`rarity-${cardData.rarity.toLowerCase()}`);
+      div.classList.add(`rarity-${cardData.rarity}`);
       div.innerText = `${cardData.name} (${capitalize(cardData.rarity)})`;
     } else {
       div.classList.add("locked");
@@ -68,7 +79,7 @@ function handleScannedCard(cardId) {
   const { name, rarity } = CARD_LIBRARY[cardId];
 
   const recent = document.getElementById("recent-card");
-  recent.className = "card rarity-" + rarity.toLowerCase();
+  recent.className = "card rarity-" + rarity;
   recent.innerText = `${name} (${capitalize(rarity)})`;
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
@@ -102,7 +113,7 @@ function setupButtons() {
   });
 }
 
-// QR Scanner Logic (unchanged from previous version)
+// ✅ QR SCANNER SYSTEM (unchanged logic)
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -172,4 +183,3 @@ window.addEventListener("DOMContentLoaded", () => {
   checkURLForCardScan();
   setupButtons();
 });
-    
