@@ -14,27 +14,68 @@ const CARD_LIBRARY = {
 
 let scannedCards = new Set();
 
-// 🛠️ Fix: Run this before anything else, as early as possible
 (function handleRedirectEarly() {
   const redirectedCard = localStorage.getItem("scannedCardRedirect");
   if (redirectedCard) {
     localStorage.removeItem("scannedCardRedirect");
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set("card", redirectedCard);
-    window.location.replace(currentUrl.href); // cleaner, no back button entry
+    window.location.replace(currentUrl.href);
   }
 })();
 
-function loadScannedFromStorage() {
-  const saved = JSON.parse(localStorage.getItem("scannedCards"));
-  if (saved && Array.isArray(saved)) {
-    scannedCards = new Set(saved);
-    for (const cardId of scannedCards) {
-      const { name, rarity } = CARD_LIBRARY[cardId];
-      addToLog(cardId, name, rarity);
-    }
-    updateScanCount();
+// Cookie helpers
+function setCookie(name, value, days) {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
   }
+  document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+  }
+  return null;
+}
+
+function saveScannedCards() {
+  const data = JSON.stringify([...scannedCards]);
+  try {
+    localStorage.setItem("scannedCards", data);
+  } catch {
+    setCookie("scannedCards", data, 365);
+  }
+}
+
+function loadScannedCards() {
+  let data;
+  try {
+    data = localStorage.getItem("scannedCards");
+  } catch {
+    data = getCookie("scannedCards");
+  }
+
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      scannedCards = new Set(parsed);
+      for (const cardId of scannedCards) {
+        if (CARD_LIBRARY[cardId]) {
+          const { name, rarity } = CARD_LIBRARY[cardId];
+          addToLog(cardId, name, rarity);
+        }
+      }
+    } catch {}
+  }
+
+  updateScanCount();
 }
 
 function updateScanCount() {
@@ -66,7 +107,7 @@ function checkURLForCardScan() {
   const { name, rarity } = CARD_LIBRARY[cardId];
 
   scannedCards.add(cardId);
-  localStorage.setItem("scannedCards", JSON.stringify([...scannedCards]));
+  saveScannedCards();
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${rarity})`;
   addToLog(cardId, name, rarity);
@@ -78,6 +119,7 @@ function setupResetButton() {
   resetBtn.addEventListener("click", () => {
     if (confirm("Reset your collection? This cannot be undone.")) {
       localStorage.removeItem("scannedCards");
+      setCookie("scannedCards", "", -1);
       scannedCards.clear();
       document.getElementById("scan-log").innerHTML = "";
       document.getElementById("scan-count").innerText = "0";
@@ -87,7 +129,8 @@ function setupResetButton() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  loadScannedFromStorage();
+  loadScannedCards();
   checkURLForCardScan();
   setupResetButton();
 });
+
