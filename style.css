@@ -84,4 +84,29 @@ h2 {
     max-width: 600px;
     margin: auto;
   }
+  .rarity-common {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.rarity-uncommon {
+  background-color: #d1ecf1;
+  border-color: #17a2b8;
+}
+
+.rarity-rare {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+}
+
+.rarity-epic {
+  background-color: #f3e5f5;
+  border-color: #9c27b0;
+}
+
+.rarity-legendary {
+  background-color: #fde2e2;
+  border-color: #ff5722;
+}
+
 }
