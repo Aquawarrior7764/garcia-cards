@@ -35,89 +35,18 @@ h2 {
   margin-bottom: 10px;
 }
 
-.card-placeholder, .card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.card-placeholder {
-  background-color: #e0e0e0;
-  color: #757575;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-}
-
-.card {
-  padding: 10px;
-  color: white;
-}
-
-.locked {
-  background-color: #424242;
-}
-
-.locked p {
-  margin: 0;
-  font-size: 24px;
-}
-
-.rarity-common {
-  background-color: #4caf50;
-}
-
-.rarity-uncommon {
-  background-color: #2196f3;
-}
-
-.rarity-rare {
-  background-color: #ffeb3b;
-  color: #000;
-}
-
-.rarity-epic {
-  background-color: #9c27b0;
-}
-
-.rarity-legendary {
-  background-color: #ff5722;
-}
-
-button {
-  margin-top: 10px;
+#reset-btn,
+#toggle-scanner-btn,
+#toggle-library-btn {
+  margin-top: 20px;
   padding: 10px 20px;
   font-size: 14px;
+  background-color: #0066cc;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
-}
-
-#toggle-library-btn {
-  background-color: #00796b;
-}
-
-#toggle-library-btn:hover {
-  background-color: #004d40;
-}
-
-#toggle-scanner-btn {
-  background-color: #0066cc;
-}
-
-#toggle-scanner-btn:hover {
-  background-color: #004ea2;
 }
 
 #reset-btn {
@@ -128,8 +57,9 @@ button {
   background-color: #c9302c;
 }
 
-.hidden {
-  display: none;
+#toggle-scanner-btn:hover,
+#toggle-library-btn:hover {
+  background-color: #004ea2;
 }
 
 #scanner-container {
@@ -144,6 +74,70 @@ button {
   background: black;
 }
 
+#library-container.hidden {
+  display: none;
+}
+
+#card-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* Card styles */
+.card {
+  text-align: center;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  border: 2px solid transparent;
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.locked {
+  background-color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locked p {
+  font-size: 20px;
+  color: #ccc;
+}
+
+/* Rarity coloring for unlocked cards */
+.rarity-common {
+  border-color: #28a745;
+}
+
+.rarity-uncommon {
+  border-color: #17a2b8;
+}
+
+.rarity-rare {
+  border-color: #ffc107;
+}
+
+.rarity-epic {
+  border-color: #9c27b0;
+}
+
+.rarity-legendary {
+  border-color: #ff5722;
+}
+
+/* Responsive max width */
 @media (min-width: 600px) {
   body {
     max-width: 600px;
