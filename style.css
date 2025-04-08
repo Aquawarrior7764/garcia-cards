@@ -121,23 +121,19 @@ h2 {
 
 /* Rarity coloring */
 .rarity-common {
-  border-color: #28a745;
+  background-color: #d4edda;
 }
-
 .rarity-uncommon {
-  border-color: #17a2b8;
+  background-color: #d1ecf1;
 }
-
 .rarity-rare {
-  border-color: #ffc107;
+  background-color: #fff3cd;
 }
-
 .rarity-epic {
-  border-color: #9c27b0;
+  background-color: #f3e5f5;
 }
-
 .rarity-legendary {
-  border-color: #ff5722;
+  background-color: #fde2e2;
 }
 
 /* Zoom Modal Fix */
