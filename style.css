@@ -131,6 +131,24 @@ h2 {
   background-color: #fde2e2;
 }
 
+/* Zoom Modal Card Info */
+.card-name,
+.card-rarity {
+  margin: 10px 0;
+  padding: 5px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Rarity-based colors for name + rarity in modal */
+.rarity-common { background-color: #d4edda; color: #155724; }
+.rarity-uncommon { background-color: #d1ecf1; color: #0c5460; }
+.rarity-rare { background-color: #fff3cd; color: #856404; }
+.rarity-epic { background-color: #f3e5f5; color: #6a1b9a; }
+.rarity-legendary { background-color: #fde2e2; color: #721c24; }
+
 /* Zoom Modal Fix */
 #zoom-modal {
   position: fixed;
