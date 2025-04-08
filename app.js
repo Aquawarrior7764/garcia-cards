@@ -11,7 +11,6 @@ const CARD_LIBRARY = {
   glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png" }
 };
 
-// ✅ Fix: Handle scannedCardRedirect BEFORE anything else
 (function handleRedirectEarly() {
   const redirectedCard = localStorage.getItem("scannedCardRedirect");
   if (redirectedCard) {
@@ -45,27 +44,33 @@ function updateLibrary() {
   container.innerHTML = "";
   counter.textContent = unlocked;
 
-Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
-  const div = document.createElement("div");
-  div.classList.add("card");
+  Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
+    const div = document.createElement("div");
+    div.classList.add("card");
 
-  const img = document.createElement("img");
-  img.classList.add("card-img");
+    const img = document.createElement("img");
+    img.classList.add("card-img");
 
-  if (scannedCards.has(cardId)) {
-    div.classList.add(`rarity-${cardData.rarity}`);
-    img.src = cardData.image;
-    img.alt = `${cardData.name}`;
-  } else {
-    div.classList.add("locked");
-    img.src = "cards/locked.png"; // placeholder back
-    img.alt = "Locked card";
-  }
+    if (scannedCards.has(cardId)) {
+      div.classList.add(`rarity-${cardData.rarity}`);
+      img.src = cardData.image;
+      img.alt = `${cardData.name}`;
 
-  div.appendChild(img);
-  container.appendChild(div);
-});
+      // Enable zoom
+      img.addEventListener("click", () => {
+        document.getElementById("zoom-img").src = cardData.image;
+        document.getElementById("zoom-modal").classList.remove("hidden");
+      });
 
+    } else {
+      div.classList.add("locked");
+      img.src = "cards/locked.png";
+      img.alt = "Locked card";
+    }
+
+    div.appendChild(img);
+    container.appendChild(div);
+  });
 }
 
 function capitalize(str) {
@@ -84,22 +89,18 @@ function handleScannedCard(cardId) {
   }
 
   const { name, rarity } = CARD_LIBRARY[cardId];
-
   const recent = document.getElementById("recent-card");
   recent.className = "card rarity-" + rarity;
   recent.innerText = `${name} (${capitalize(rarity)})`;
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
-
   updateLibrary();
 }
 
 function checkURLForCardScan() {
   const params = new URLSearchParams(window.location.search);
   const cardId = params.get("card");
-
   if (!cardId) return;
-
   handleScannedCard(cardId);
 }
 
@@ -118,9 +119,13 @@ function setupButtons() {
   document.getElementById("toggle-library-btn").addEventListener("click", () => {
     document.getElementById("library-container").classList.toggle("hidden");
   });
+
+  document.getElementById("zoom-backdrop").addEventListener("click", () => {
+    document.getElementById("zoom-modal").classList.add("hidden");
+  });
 }
 
-// ✅ QR SCANNER SYSTEM (unchanged logic)
+// Scanner
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -161,14 +166,12 @@ function stopScanner() {
 
 function scanLoop() {
   if (!scannerRunning) return;
-
   if (video.readyState === video.HAVE_ENOUGH_DATA) {
     canvas.height = video.videoHeight;
     canvas.width = video.videoWidth;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const code = jsQR(imageData.data, canvas.width, canvas.height);
-
     if (code && code.data.includes("card=")) {
       try {
         const parsedURL = new URL(code.data);
@@ -181,7 +184,6 @@ function scanLoop() {
       } catch (e) {}
     }
   }
-
   requestAnimationFrame(scanLoop);
 }
 
