@@ -191,4 +191,8 @@ window.addEventListener("DOMContentLoaded", () => {
   loadScannedFromStorage();
   checkURLForCardScan();
   setupButtons();
+  // Close zoom modal on outside click
+document.getElementById("zoom-modal").addEventListener("click", () => {
+  document.getElementById("zoom-modal").classList.add("hidden");
+});
 });
