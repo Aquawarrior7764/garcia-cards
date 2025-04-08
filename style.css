@@ -94,14 +94,20 @@ h2 {
   position: relative;
   background: #fff;
   border: 2px solid transparent;
+  max-height: 260px;
+  height: auto;
 }
 
 .card-img {
   width: 100%;
+  aspect-ratio: 3 / 5;
   height: auto;
-  border-radius: 6px;
+  max-height: 100%;
   object-fit: cover;
+  border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: block;
+  background-color: #ddd;
 }
 
 .locked {
@@ -109,10 +115,8 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.locked p {
-  font-size: 20px;
+  flex-direction: column;
+  font-size: 18px;
   color: #ccc;
 }
 
