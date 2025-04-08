@@ -114,6 +114,27 @@ function setupButtons() {
       document.getElementById("recent-card").innerHTML = "<p>No cards scanned yet.</p>";
       document.getElementById("recent-card").className = "card-placeholder";
     }
+    
+    function showZoomedCard(cardId) {
+  const card = CARD_LIBRARY[cardId];
+  const img = document.getElementById("zoom-card-img");
+  const name = document.getElementById("zoom-card-name");
+  const rarity = document.getElementById("zoom-card-rarity");
+  const modal = document.getElementById("zoom-modal");
+
+  img.src = card.image;
+  name.textContent = card.name;
+  rarity.textContent = card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1);
+
+  // Reset and apply rarity color class
+  name.className = 'card-name';
+  rarity.className = 'card-rarity';
+  const rarityClass = `rarity-${card.rarity.toLowerCase()}`;
+  name.classList.add(rarityClass);
+  rarity.classList.add(rarityClass);
+
+  modal.classList.remove("hidden");
+}
   });
 
   document.getElementById("toggle-library-btn").addEventListener("click", () => {
