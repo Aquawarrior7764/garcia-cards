@@ -1,14 +1,14 @@
 const CARD_LIBRARY = {
-  gcu1: { name: "GarciaCardCommon1", rarity: "common" },
-  gcu2: { name: "GarciaCardCommon2", rarity: "common" },
-  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon" },
-  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon" },
-  grc1: { name: "GarciaCardRare1", rarity: "rare" },
-  grc2: { name: "GarciaCardRare2", rarity: "rare" },
-  gec1: { name: "GarciaCardEpic1", rarity: "epic" },
-  gec2: { name: "GarciaCardEpic2", rarity: "epic" },
-  glc1: { name: "GarciaCardLegendary1", rarity: "legendary" },
-  glc2: { name: "GarciaCardLegendary2", rarity: "legendary" }
+  gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png" },
+  gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png" },
+  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png" },
+  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png" },
+  grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png" },
+  grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png" },
+  gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png" },
+  gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png" },
+  glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png" },
+  glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png" }
 };
 
 // ✅ Fix: Handle scannedCardRedirect BEFORE anything else
