@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Garcia Cards</title>
-  <link rel="stylesheet" href="style.css?v=1.2" />
+  <link rel="stylesheet" href="style.css?v=1.4" />
 </head>
 <body>
   <h1>Garcia Cards</h1>
@@ -36,11 +36,17 @@
 
   <button id="reset-btn">Reset Collection</button>
 
+  <!-- Zoom modal -->
+  <div id="zoom-modal" class="hidden">
+    <div id="zoom-backdrop"></div>
+    <img id="zoom-img" src="" alt="Zoomed card" />
+  </div>
+
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
-  <script src="app.js?v=1.3.6"></script>
+  <script src="app.js?v=1.3.7"></script>
 
   <p style="text-align:center; font-size: 12px; margin-top: 20px;">
-    v1.3.6 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
+    v1.3.7 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
   </p>
 </body>
 </html>
