@@ -86,27 +86,22 @@ h2 {
 }
 
 .card {
-  text-align: center;
-  border-radius: 8px;
-  padding: 8px;
+  width: 100%;
+  aspect-ratio: 2.5 / 3.5;
+  background-color: transparent;
+  border-radius: 10px;
   overflow: hidden;
-  position: relative;
-  background: #fff;
-  border: 2px solid transparent;
-  max-height: 260px;
-  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-img {
   width: 100%;
-  aspect-ratio: 3 / 5;
   height: auto;
-  max-height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   display: block;
-  background-color: #ddd;
 }
 
 .locked {
