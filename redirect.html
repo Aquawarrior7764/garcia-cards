@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Redirecting...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
     const params = new URLSearchParams(window.location.search);
     const cardId = params.get("card");
 
     if (cardId) {
-      // Save scanned card in localStorage
-      localStorage.setItem("scannedCardRedirect", cardId);
-      // Redirect to root/index page with clean URL
-      window.location.href = "/";
+      // Pull existing collection or start fresh
+      const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
+      const updated = new Set(saved);
+      updated.add(cardId);
+
+      // Save back to root localStorage
+      localStorage.setItem("scannedCards", JSON.stringify([...updated]));
+
+      // Now redirect to root index with card param
+      window.location.href = `https://garciacards.net/?card=${cardId}`;
     } else {
-      // If no card param, just go to home
-      window.location.href = "/";
+      window.location.href = "https://garciacards.net";
     }
   </script>
 </head>
