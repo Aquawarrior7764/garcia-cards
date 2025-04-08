@@ -45,20 +45,27 @@ function updateLibrary() {
   container.innerHTML = "";
   counter.textContent = unlocked;
 
-  Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
-    const div = document.createElement("div");
-    div.classList.add("card");
+Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
+  const div = document.createElement("div");
+  div.classList.add("card");
 
-    if (scannedCards.has(cardId)) {
-      div.classList.add(`rarity-${cardData.rarity}`);
-      div.innerText = `${cardData.name} (${capitalize(cardData.rarity)})`;
-    } else {
-      div.classList.add("locked");
-      div.innerHTML = `<p>???</p>`;
-    }
+  const img = document.createElement("img");
+  img.classList.add("card-img");
 
-    container.appendChild(div);
-  });
+  if (scannedCards.has(cardId)) {
+    div.classList.add(`rarity-${cardData.rarity}`);
+    img.src = cardData.image;
+    img.alt = `${cardData.name}`;
+  } else {
+    div.classList.add("locked");
+    img.src = "cards/locked.png"; // placeholder back
+    img.alt = "Locked card";
+  }
+
+  div.appendChild(img);
+  container.appendChild(div);
+});
+
 }
 
 function capitalize(str) {
