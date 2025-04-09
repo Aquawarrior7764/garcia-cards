@@ -134,12 +134,12 @@ h2 {
 /* Zoom Modal Card Info */
 .card-name,
 .card-rarity {
-  margin: 10px 0;
-  padding: 5px 12px;
-  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
   font-weight: bold;
-  border-radius: 6px;
-  display: inline-block;
+  margin: 10px 0;
+  padding: 5px 0;
 }
 
 /* Rarity-based colors for name + rarity in modal */
@@ -158,38 +158,29 @@ h2 {
   height: 100vh;
   background: rgba(0, 0, 0, 0.85);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   z-index: 9999;
+}
+
+#zoom-modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 #zoom-modal.hidden {
   display: none;
 }
 
-#zoom-card-img {
+#zoom-img {
   max-width: 90%;
-  max-height: 80vh;
+  max-height: 90%;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: zoomFadeIn 0.2s ease;
-}
-
-#zoom-card-name,
-#zoom-card-rarity {
-  text-align: center;
-  font-weight: bold;
-  font-size: 20px;
-  margin: 6px 0;
-}
-
-#zoom-card-name {
-  margin-top: 12px;
-}
-
-#zoom-card-rarity {
-  margin-bottom: 12px;
 }
 
 @keyframes zoomFadeIn {
