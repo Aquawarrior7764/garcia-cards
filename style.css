@@ -134,18 +134,20 @@ h2 {
 /* Zoom Modal Card Info */
 .card-name,
 .card-rarity {
-  font-size: 18px;
+  margin: 10px 0;
+  padding: 5px 12px;
+  font-size: 16px;
   font-weight: bold;
-  text-align: center;
-  margin: 8px 0;
+  border-radius: 6px;
+  display: inline-block;
 }
 
 /* Rarity-based colors for name + rarity in modal */
-.rarity-common { color: #155724; }
-.rarity-uncommon { color: #0c5460; }
-.rarity-rare { color: #856404; }
-.rarity-epic { color: #6a1b9a; }
-.rarity-legendary { color: #721c24; }
+.rarity-common { background-color: #d4edda; color: #155724; }
+.rarity-uncommon { background-color: #d1ecf1; color: #0c5460; }
+.rarity-rare { background-color: #fff3cd; color: #856404; }
+.rarity-epic { background-color: #f3e5f5; color: #6a1b9a; }
+.rarity-legendary { background-color: #fde2e2; color: #721c24; }
 
 /* Zoom Modal Fix */
 #zoom-modal {
@@ -172,6 +174,22 @@ h2 {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: zoomFadeIn 0.2s ease;
+}
+
+#zoom-card-name,
+#zoom-card-rarity {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 6px 0;
+}
+
+#zoom-card-name {
+  margin-top: 12px;
+}
+
+#zoom-card-rarity {
+  margin-bottom: 12px;
 }
 
 @keyframes zoomFadeIn {
