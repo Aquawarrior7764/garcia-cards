@@ -192,18 +192,30 @@ function scanLoop() {
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const code = jsQR(imageData.data, canvas.width, canvas.height);
-    if (code && code.data.includes("card=")) {
+
+    if (code?.data) {
+      let cardId = null;
+
       try {
-        const parsedURL = new URL(code.data);
-        const cardId = parsedURL.searchParams.get("card");
-        if (cardId && CARD_LIBRARY[cardId]) {
-          window.location.href = `https://garciacards.net/redirect.html?card=${cardId}`;
-          stopScanner();
-          return;
+        // Try parsing as URL (https://... or ?card=...)
+        const parsed = new URL(code.data, window.location.origin);
+        cardId = parsed.searchParams.get("card");
+      } catch (e) {
+        // If it's just a raw ID like "gcu1"
+        if (CARD_LIBRARY[code.data]) {
+          cardId = code.data;
         }
-      } catch (e) {}
+      }
+
+      if (cardId && CARD_LIBRARY[cardId]) {
+        localStorage.setItem("scannedCardRedirect", cardId);
+        window.location.href = `https://garciacards.net/redirect.html`;
+        stopScanner();
+        return;
+      }
     }
   }
+
   requestAnimationFrame(scanLoop);
 }
 
