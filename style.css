@@ -95,6 +95,16 @@ h2 {
   justify-content: center;
   align-items: center;
 }
+#zoom-card-name,
+#zoom-card-rarity {
+  text-align: center;
+  font-weight: bold;
+  margin: 12px 0 6px;
+  font-size: 18px;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
 
 .card-img {
   width: 100%;
