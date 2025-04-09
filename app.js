@@ -56,7 +56,6 @@ function updateLibrary() {
       img.src = cardData.image;
       img.alt = `${cardData.name}`;
 
-      // ✅ Use zoomed card view
       img.addEventListener("click", () => {
         showZoomedCard(cardId);
       });
@@ -124,28 +123,17 @@ function setupButtons() {
   });
 }
 
-// ✅ Zoom display logic (now outside of setupButtons)
+// Zoom card image only (no name/rarity overlays)
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const img = document.getElementById("zoom-card-img");
-  const name = document.getElementById("zoom-card-name");
-  const rarity = document.getElementById("zoom-card-rarity");
   const modal = document.getElementById("zoom-modal");
 
   img.src = card.image;
-  name.textContent = card.name;
-  rarity.textContent = card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1);
-
-  name.className = 'card-name';
-  rarity.className = 'card-rarity';
-  const rarityClass = `rarity-${card.rarity.toLowerCase()}`;
-  name.classList.add(rarityClass);
-  rarity.classList.add(rarityClass);
-
   modal.classList.remove("hidden");
 }
 
-// Scanner
+// Scanner setup
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -197,11 +185,9 @@ function scanLoop() {
       let cardId = null;
 
       try {
-        // Try parsing as URL (https://... or ?card=...)
         const parsed = new URL(code.data, window.location.origin);
         cardId = parsed.searchParams.get("card");
       } catch (e) {
-        // If it's just a raw ID like "gcu1"
         if (CARD_LIBRARY[code.data]) {
           cardId = code.data;
         }
