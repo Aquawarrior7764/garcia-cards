@@ -56,10 +56,9 @@ function updateLibrary() {
       img.src = cardData.image;
       img.alt = `${cardData.name}`;
 
-      // Enable zoom
+      // ✅ Use zoomed card view
       img.addEventListener("click", () => {
-        document.getElementById("zoom-img").src = cardData.image;
-        document.getElementById("zoom-modal").classList.remove("hidden");
+        showZoomedCard(cardId);
       });
 
     } else {
@@ -114,8 +113,19 @@ function setupButtons() {
       document.getElementById("recent-card").innerHTML = "<p>No cards scanned yet.</p>";
       document.getElementById("recent-card").className = "card-placeholder";
     }
-    
-    function showZoomedCard(cardId) {
+  });
+
+  document.getElementById("toggle-library-btn").addEventListener("click", () => {
+    document.getElementById("library-container").classList.toggle("hidden");
+  });
+
+  document.getElementById("zoom-modal").addEventListener("click", () => {
+    document.getElementById("zoom-modal").classList.add("hidden");
+  });
+}
+
+// ✅ Zoom display logic (now outside of setupButtons)
+function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const img = document.getElementById("zoom-card-img");
   const name = document.getElementById("zoom-card-name");
@@ -126,7 +136,6 @@ function setupButtons() {
   name.textContent = card.name;
   rarity.textContent = card.rarity.charAt(0).toUpperCase() + card.rarity.slice(1);
 
-  // Reset and apply rarity color class
   name.className = 'card-name';
   rarity.className = 'card-rarity';
   const rarityClass = `rarity-${card.rarity.toLowerCase()}`;
@@ -134,16 +143,6 @@ function setupButtons() {
   rarity.classList.add(rarityClass);
 
   modal.classList.remove("hidden");
-}
-  });
-
-  document.getElementById("toggle-library-btn").addEventListener("click", () => {
-    document.getElementById("library-container").classList.toggle("hidden");
-  });
-
-  document.getElementById("zoom-backdrop").addEventListener("click", () => {
-    document.getElementById("zoom-modal").classList.add("hidden");
-  });
 }
 
 // Scanner
@@ -212,8 +211,4 @@ window.addEventListener("DOMContentLoaded", () => {
   loadScannedFromStorage();
   checkURLForCardScan();
   setupButtons();
-  // Close zoom modal on outside click
-document.getElementById("zoom-modal").addEventListener("click", () => {
-  document.getElementById("zoom-modal").classList.add("hidden");
-});
 });
