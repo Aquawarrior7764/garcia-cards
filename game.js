@@ -1,4 +1,3 @@
-// === CARD OPTIONS ===
 const playerCards = [
   {
     name: 'Fire Lizard',
@@ -56,7 +55,7 @@ const effectiveness = {
   neutral: null
 };
 
-// === EVENT LISTENER (handles move clicks) ===
+// === EVENT DELEGATION FOR MOVES ===
 document.addEventListener('click', function (e) {
   if (e.target && e.target.matches('button[data-move]')) {
     const move = e.target.getAttribute('data-move');
@@ -64,7 +63,6 @@ document.addEventListener('click', function (e) {
   }
 });
 
-// === GAME START ===
 function startCardSelection() {
   const container = document.getElementById('game-container');
   container.innerHTML = `<h2>Select Your Card</h2>`;
@@ -194,5 +192,7 @@ function showResult(yourMove, opponentMove, result) {
   }
 }
 
-// Start the game
-startCardSelection();
+// WAIT UNTIL DOM IS READY
+document.addEventListener("DOMContentLoaded", () => {
+  startCardSelection();
+});
