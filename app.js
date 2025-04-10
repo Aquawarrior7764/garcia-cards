@@ -1,16 +1,32 @@
 const CARD_LIBRARY = {
+  // Common (5)
   gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png", banner: "assets/COMMON banner.png" },
   gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png", banner: "assets/COMMON banner.png" },
+  gcu3: { name: "GarciaCardCommon3", rarity: "common", image: "cards/gcu3.png", banner: "assets/COMMON banner.png" },
+  gcu4: { name: "GarciaCardCommon4", rarity: "common", image: "cards/gcu4.png", banner: "assets/COMMON banner.png" },
+  gcu5: { name: "GarciaCardCommon5", rarity: "common", image: "cards/gcu5.png", banner: "assets/COMMON banner.png" },
+
+  // Uncommon (4)
   guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png", banner: "assets/UNCOMMON banner.png" },
   guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png", banner: "assets/UNCOMMON banner.png" },
+  guc3: { name: "GarciaCardUncommon3", rarity: "uncommon", image: "cards/guc3.png", banner: "assets/UNCOMMON banner.png" },
+  guc4: { name: "GarciaCardUncommon4", rarity: "uncommon", image: "cards/guc4.png", banner: "assets/UNCOMMON banner.png" },
+
+  // Rare (3)
   grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png", banner: "assets/RARE banner.png" },
   grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png", banner: "assets/RARE banner.png" },
+  grc3: { name: "GarciaCardRare3", rarity: "rare", image: "cards/grc3.png", banner: "assets/RARE banner.png" },
+
+  // Epic (2)
   gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png", banner: "assets/EPIC banner.png" },
   gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png", banner: "assets/EPIC banner.png" },
+
+  // Legendary (2)
   glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png", banner: "assets/LEGENDARY banner.png" },
   glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png", banner: "assets/LEGENDARY banner.png" }
 };
 
+// Remainder of app.js (same as before) – already correctly structured for any card count:
 (function handleRedirectEarly() {
   const redirectedCard = localStorage.getItem("scannedCardRedirect");
   if (redirectedCard) {
@@ -121,16 +137,13 @@ function setupButtons() {
   });
 }
 
-// Zoom modal w/ glow containers
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const overlay = document.getElementById("zoom-overlay-content");
   const modal = document.getElementById("zoom-modal");
 
-  // Clean previous contents
   overlay.innerHTML = "";
 
-  // Create banner container
   const bannerWrap = document.createElement("div");
   bannerWrap.className = `glow-container glow-banner glow-${card.rarity}`;
   const bannerImg = document.createElement("img");
@@ -139,7 +152,6 @@ function showZoomedCard(cardId) {
   bannerImg.id = "zoom-banner";
   bannerWrap.appendChild(bannerImg);
 
-  // Create card container
   const cardWrap = document.createElement("div");
   cardWrap.className = `glow-container glow-card glow-${card.rarity}`;
   const cardImg = document.createElement("img");
@@ -148,7 +160,6 @@ function showZoomedCard(cardId) {
   cardImg.id = "zoom-card-img";
   cardWrap.appendChild(cardImg);
 
-  // Inject into modal
   overlay.appendChild(bannerWrap);
   overlay.appendChild(cardWrap);
   modal.classList.remove("hidden");
