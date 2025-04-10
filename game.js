@@ -1,21 +1,20 @@
 // game.js
 
-// Placeholder socket setup (will do nothing yet until server is running)
-const socket = io('http://localhost:3000'); // We'll update this later
+// TEMP: Disable multiplayer for now
+// const socket = io('http://localhost:3000');
 
-socket.on('waiting', (data) => {
-  document.getElementById('game-container').innerText = data.message;
-});
+// socket.on('waiting', (data) => {
+//   document.getElementById('game-container').innerText = data.message;
+// });
 
-socket.on('match-found', (data) => {
-  document.getElementById('game-container').innerText = `Opponent found! ID: ${data.opponentId}`;
-});
+// socket.on('match-found', (data) => {
+//   document.getElementById('game-container').innerText = `Opponent found! ID: ${data.opponentId}`;
+// });
 
-socket.on('start-game', ({ room }) => {
-  console.log(`Game starting in room: ${room}`);
-});
+// socket.on('start-game', ({ room }) => {
+//   console.log(`Game starting in room: ${room}`);
+// });
 
-// Frontend card selection logic
 const mockCards = [
   { name: 'Fire Lizard', stats: { attack: 5, grab: 2, shield: 3, neutral: 1 }},
   { name: 'Stone Guard', stats: { attack: 2, grab: 4, shield: 5, neutral: 1 }},
@@ -45,7 +44,6 @@ function selectCard(index) {
   const selectedCard = mockCards[index];
   window.selectedCard = selectedCard;
 
-  // Show move choices
   const container = document.getElementById('game-container');
   container.innerHTML = `<h2>Choose a Move</h2>`;
 
