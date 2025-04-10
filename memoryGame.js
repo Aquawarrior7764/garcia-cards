@@ -21,6 +21,7 @@ init();
 
 function init() {
   addResetListener();
+  generateGameCards();
   setCardListeners();
 }
 
@@ -28,6 +29,27 @@ function addResetListener() {
   resetButton.addEventListener("click", function () {
     location.reload();
   });
+}
+
+function generateGameCards() {
+  const unlocked = JSON.parse(localStorage.getItem("scannedCards")) || [];
+  const defaultCards = ["gcu1", "gcu2", "guc1", "guc2", "grc1", "grc2", "gec1", "gec2"];
+  const selectedCards = unlocked.length >= 8 ? unlocked.slice(0, 8) : defaultCards;
+  const gameCards = shuffle([...selectedCards, ...selectedCards]);
+
+  cards.forEach((card, index) => {
+    const cardId = gameCards[index];
+    card.dataset.cardId = cardId;
+    card.style.setProperty('--card-image', `url(cards/${cardId}.png)`);
+  });
+}
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 function setCardListeners() {
