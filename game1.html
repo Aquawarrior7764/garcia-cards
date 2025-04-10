@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="styles.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Garcia Cards – Matching Game</title>
+  <link rel="stylesheet" href="memory.css?v=1.0.0" />
 </head>
 <body>
 
-  <h1>Matching Game</h1>
+  <h1>Garcia Cards – Matching Game</h1>
 
   <div id="stripe">
     <span id="moves-and-stars">
@@ -22,32 +22,69 @@
   </div>
 
   <div id="container">
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
-    <div class="card"><span class="symbol"></span></div>
+    <!-- Cards will be dynamically generated -->
   </div>
 
   <div id="modal-container">
-    <span id="modal">
+    <div id="modal">
       <div class="modal-text">You won!</div>
       <div id="win-text" class="modal-text"></div>
       <div class="modal-text">Press Reset to play again!</div>
-    </span>
+    </div>
   </div>
 
-  <script src="memoryGame.js"></script>
+  <div style="text-align: center; margin-top: 20px;">
+    <button onclick="window.location.href='index.html'">← Back to Main Site</button>
+  </div>
+
+  <script>
+    const CARD_LIBRARY = {
+      gcu1: { name: "GarciaCardCommon1", image: "cards/gcu1.png" },
+      gcu2: { name: "GarciaCardCommon2", image: "cards/gcu2.png" },
+      gcu3: { name: "GarciaCardCommon3", image: "cards/gcu3.png" },
+      gcu4: { name: "GarciaCardCommon4", image: "cards/gcu4.png" },
+      gcu5: { name: "GarciaCardCommon5", image: "cards/gcu5.png" },
+      guc1: { name: "GarciaCardUncommon1", image: "cards/guc1.png" },
+      guc2: { name: "GarciaCardUncommon2", image: "cards/guc2.png" },
+      guc3: { name: "GarciaCardUncommon3", image: "cards/guc3.png" },
+      guc4: { name: "GarciaCardUncommon4", image: "cards/guc4.png" },
+      grc1: { name: "GarciaCardRare1", image: "cards/grc1.png" },
+      grc2: { name: "GarciaCardRare2", image: "cards/grc2.png" },
+      grc3: { name: "GarciaCardRare3", image: "cards/grc3.png" },
+      gec1: { name: "GarciaCardEpic1", image: "cards/gec1.png" },
+      gec2: { name: "GarciaCardEpic2", image: "cards/gec2.png" },
+      glc1: { name: "GarciaCardLegendary1", image: "cards/glc1.png" },
+      glc2: { name: "GarciaCardLegendary2", image: "cards/glc2.png" }
+    };
+
+    const unlockedCards = JSON.parse(localStorage.getItem("scannedCards")) || [];
+    const playableCards = Object.keys(CARD_LIBRARY).filter(id => unlockedCards.includes(id));
+
+    const container = document.getElementById("container");
+
+    if (playableCards.length < 8) {
+      container.innerHTML = "<p style='text-align:center;'>You need at least 8 unlocked cards to play the game.</p>";
+    } else {
+      // Duplicate and shuffle cards
+      const selectedCards = playableCards.slice(0, 8);
+      const gameCards = [...selectedCards, ...selectedCards].sort(() => 0.5 - Math.random());
+
+      gameCards.forEach(cardId => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.cardId = cardId;
+
+        const symbol = document.createElement("span");
+        symbol.classList.add("symbol");
+        symbol.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
+
+        card.appendChild(symbol);
+        container.appendChild(card);
+      });
+
+      // Initialize game logic here or in memoryGame.js
+    }
+  </script>
+  <script src="memoryGame.js?v=1.0.0"></script>
 </body>
 </html>
