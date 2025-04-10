@@ -152,13 +152,14 @@ h2 {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  text-align: center;
 }
 
 #zoom-modal.hidden {
   display: none;
 }
 
-/* Container for banner + image to center both together */
+/* This ensures the entire zoom overlay is centered */
 #zoom-overlay-content {
   display: flex;
   flex-direction: column;
@@ -166,22 +167,26 @@ h2 {
   justify-content: center;
 }
 
-/* Banner stays full width relative to image */
+/* Banner: fixed width matching image, no overflow */
 #zoom-banner {
-  width: 80%;
-  max-width: 600px;
-  height: auto;
+  width: auto;
+  max-width: 90vw;
+  max-height: 120px;
   margin-bottom: 20px;
+  object-fit: contain;
+  display: block;
 }
 
-/* Card zoomed image */
+/* Zoomed card image */
 #zoom-card-img {
-  width: 90vw;
-  max-width: 600px;
+  width: auto;
+  max-width: 90vw;
   max-height: 80vh;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: zoomFadeIn 0.2s ease;
+  display: block;
+  object-fit: contain;
 }
 
 @keyframes zoomFadeIn {
