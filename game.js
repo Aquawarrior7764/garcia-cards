@@ -1,39 +1,100 @@
+// === CARD OPTIONS ===
+const playerCards = [
+  {
+    name: 'Fire Lizard',
+    stats: { attack: 5, grab: 3, shield: 2, neutral: 1 },
+    hp: 12,
+    bonus: 2
+  },
+  {
+    name: 'Speed Hawk',
+    stats: { attack: 4, grab: 4, shield: 1, neutral: 3 },
+    hp: 10,
+    bonus: 3
+  },
+  {
+    name: 'Stone Guard',
+    stats: { attack: 2, grab: 2, shield: 5, neutral: 1 },
+    hp: 14,
+    bonus: 1
+  }
+];
 
-// === MOCK CARDS ===
-const yourCard = {
-  name: 'Fire Lizard',
-  stats: { attack: 5, grab: 3, defense: 2, neutral: 1 },
-  hp: 10
-};
+const opponentCards = [
+  {
+    name: 'Dark Wraith',
+    stats: { attack: 3, grab: 5, shield: 2, neutral: 1 },
+    hp: 11,
+    bonus: 2,
+    revealedStats: new Set()
+  },
+  {
+    name: 'Sky Beetle',
+    stats: { attack: 5, grab: 2, shield: 3, neutral: 2 },
+    hp: 12,
+    bonus: 1,
+    revealedStats: new Set()
+  },
+  {
+    name: 'Iron Bark',
+    stats: { attack: 2, grab: 3, shield: 4, neutral: 2 },
+    hp: 13,
+    bonus: 3,
+    revealedStats: new Set()
+  }
+];
 
-const opponentCard = {
-  name: 'Stone Guard',
-  stats: { attack: 2, grab: 4, defense: 5, neutral: 1 },
-  hp: 10,
-  revealed: false
-};
-
+let yourCard = null;
+let opponentCard = null;
 let round = 1;
+let opponentRevealed = false;
 
 const effectiveness = {
   attack: 'grab',
-  grab: 'defense',
-  defense: 'attack',
+  grab: 'shield',
+  shield: 'neutral',
   neutral: null
 };
 
 // === GAME START ===
+function startCardSelection() {
+  const container = document.getElementById('game-container');
+  container.innerHTML = `<h2>Select Your Card</h2>`;
+
+  playerCards.forEach((card, index) => {
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'card';
+    cardDiv.innerHTML = `
+      <strong>${card.name}</strong><br>
+      HP: ${card.hp}<br>
+      Attack: ${card.stats.attack}, Grab: ${card.stats.grab}, Shield: ${card.stats.shield}, Neutral: ${card.stats.neutral}<br>
+      Bonus vs effective type: +${card.bonus}<br>
+      <button onclick="selectCard(${index})">Choose</button>
+    `;
+    container.appendChild(cardDiv);
+  });
+}
+
+function selectCard(index) {
+  yourCard = JSON.parse(JSON.stringify(playerCards[index])); // Deep clone
+  opponentCard = JSON.parse(JSON.stringify(opponentCards[Math.floor(Math.random() * opponentCards.length)]));
+  startGame();
+}
+
 function startGame() {
   const container = document.getElementById('game-container');
   container.innerHTML = `
     <h2>Round ${round}</h2>
     <p><strong>Your Card:</strong> ${yourCard.name}</p>
     <p><strong>Your HP:</strong> ${yourCard.hp}</p>
-    <p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>
+    <p><strong>Your Stats:</strong> Attack: ${yourCard.stats.attack}, Grab: ${yourCard.stats.grab}, Shield: ${yourCard.stats.shield}, Neutral: ${yourCard.stats.neutral}</p>
+    ${opponentRevealed ? `<p><strong>Opponent Card:</strong> ${opponentCard.name}</p>` : ''}
+    ${opponentRevealed ? `<p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>` : ''}
+    ${opponentRevealed ? getOpponentStatsHTML() : ''}
     <p><strong>Choose your move:</strong></p>
   `;
 
-  ['attack', 'grab', 'defense', 'neutral'].forEach((move) => {
+  ['attack', 'grab', 'shield', 'neutral'].forEach((move) => {
     const btn = document.createElement('button');
     btn.innerText = move;
     btn.onclick = () => submitMove(move);
@@ -41,21 +102,31 @@ function startGame() {
   });
 }
 
+function getOpponentStatsHTML() {
+  let revealed = Array.from(opponentCard.revealedStats || []);
+  if (revealed.length === 0) return `<p>Opponent stats: ???</p>`;
+  return `<p>Opponent known stats: ` + revealed.map(stat => `${stat}: ${opponentCard.stats[stat]}`).join(', ') + `</p>`;
+}
+
 function submitMove(playerMove) {
   const opponentMove = getRandomMove();
+
+  // Track which opponent stat was used
+  if (!opponentCard.revealedStats) opponentCard.revealedStats = new Set();
+  opponentCard.revealedStats.add(opponentMove);
 
   const result = resolveBattle(
     { card: yourCard, move: playerMove },
     { card: opponentCard, move: opponentMove }
   );
 
-  opponentCard.revealed = true;
+  if (!opponentRevealed) opponentRevealed = true;
 
   showResult(playerMove, opponentMove, result);
 }
 
 function getRandomMove() {
-  const moves = ['attack', 'grab', 'defense', 'neutral'];
+  const moves = ['attack', 'grab', 'shield', 'neutral'];
   return moves[Math.floor(Math.random() * moves.length)];
 }
 
@@ -64,10 +135,10 @@ function resolveBattle(player1, player2) {
   let p2Attack = player2.card.stats[player2.move];
 
   if (effectiveness[player1.move] === player2.move) {
-    p1Attack += 2;
+    p1Attack += player1.card.bonus;
   }
   if (effectiveness[player2.move] === player1.move) {
-    p2Attack += 2;
+    p2Attack += player2.card.bonus;
   }
 
   const damage = Math.abs(p1Attack - p2Attack);
@@ -100,7 +171,8 @@ function showResult(yourMove, opponentMove, result) {
     <hr>
     <p><strong>Your HP:</strong> ${yourCard.hp}</p>
     <p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>
-    ${opponentCard.revealed ? `<p><strong>Opponent Card:</strong> ${opponentCard.name}</p>` : ''}
+    <p><strong>Opponent Card:</strong> ${opponentCard.name}</p>
+    ${getOpponentStatsHTML()}
   `;
 
   if (yourCard.hp <= 0 || opponentCard.hp <= 0) {
@@ -117,4 +189,4 @@ function showResult(yourMove, opponentMove, result) {
 }
 
 // Start the game
-startGame();
+startCardSelection();
