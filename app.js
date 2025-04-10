@@ -58,12 +58,6 @@ function updateLibrary() {
       img.addEventListener("click", () => {
         showZoomedCard(cardId);
       });
-
-      const banner = document.createElement("img");
-      banner.classList.add("card-banner");
-      banner.src = cardData.banner;
-      banner.alt = `${cardData.rarity} banner`;
-      div.appendChild(banner);
     } else {
       div.classList.add("locked");
       img.src = "cards/locked.png";
