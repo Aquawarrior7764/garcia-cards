@@ -122,18 +122,30 @@ function setupButtons() {
     document.getElementById("zoom-modal").classList.add("hidden");
   });
 }
-
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const img = document.getElementById("zoom-card-img");
   const banner = document.getElementById("zoom-banner");
   const modal = document.getElementById("zoom-modal");
+  const overlay = document.getElementById("zoom-overlay-content");
+
+  const rarityClass = `glow-${card.rarity.toLowerCase()}`;
+
+  // Clean previous glow classes
+  img.className = '';
+  banner.className = '';
+  overlay.className = '';
+
+  // Apply glow + rarity class
+  img.classList.add('glow-effect', rarityClass);
+  banner.classList.add('glow-effect', rarityClass);
 
   img.src = card.image;
-  banner.src = `assets/${card.rarity.toUpperCase()} banner.png`; // e.g., "assets/RARE banner.png"
+  banner.src = `assets/${card.rarity.toUpperCase()} banner.png`;
 
   modal.classList.remove("hidden");
 }
+
 
 // Scanner
 let videoStream = null;
