@@ -132,16 +132,16 @@ h2 {
   background-color: #d1ecf1;
 }
 .rarity-rare {
-  background-color: #e0c7a3; /* bronze-like */
+  background-color: #e0c7a3;
 }
 .rarity-epic {
   background-color: #f3e5f5;
 }
 .rarity-legendary {
-  background-color: #fff8dc; /* golden yellow */
+  background-color: #fff8dc;
 }
 
-/* Zoom modal backdrop */
+/* Zoom Modal */
 #zoom-modal {
   position: fixed;
   top: 0;
@@ -160,7 +160,6 @@ h2 {
   display: none;
 }
 
-/* Zoom layout container */
 #zoom-overlay-content {
   display: flex;
   flex-direction: column;
@@ -168,67 +167,70 @@ h2 {
   justify-content: center;
 }
 
-/* Zoomed banner */
-#zoom-banner {
-  width: auto;
-  max-width: 90vw;
-  max-height: 120px;
-  margin-bottom: 20px;
-  object-fit: contain;
-  display: block;
-  border-radius: 6px;
-  box-shadow: 0 0 6px 2px var(--glow-color, transparent);
+/* === GLOW CONTAINERS === */
+.glow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: 12px;
   animation: glowPulse 2.5s ease-in-out infinite;
-}
-
-/* Zoomed card image */
-#zoom-card-img {
-  width: auto;
-  max-width: 90vw;
-  max-height: 80vh;
-  border-radius: 10px;
   box-shadow: 0 0 10px 3px var(--glow-color, transparent);
-  animation: zoomFadeIn 0.2s ease, glowPulse 2.5s ease-in-out infinite;
-  display: block;
+}
+
+.glow-banner {
+  width: 85%;
+  max-width: 85vw;
+  margin-bottom: 16px;
+}
+
+.glow-card {
+  width: 88%;
+  max-width: 88vw;
+}
+
+/* === Zoomed Elements === */
+#zoom-banner {
+  width: 100%;
+  max-height: 120px;
   object-fit: contain;
+  border-radius: 8px;
+  display: block;
 }
 
-@keyframes zoomFadeIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+#zoom-card-img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
 }
 
-/* Glow Pulse Animation */
+/* Glow Pulse */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 4px 1px var(--glow-color, transparent);
+    box-shadow: 0 0 6px 2px var(--glow-color, transparent);
   }
   50% {
-    box-shadow: 0 0 10px 3px var(--glow-color, transparent);
+    box-shadow: 0 0 14px 5px var(--glow-color, transparent);
   }
 }
 
-/* Rarity glow color mapping */
+/* Rarity glow color mappings */
 .glow-common {
-  --glow-color: rgba(40, 167, 69, 0.25);
+  --glow-color: rgba(40, 167, 69, 0.3);
 }
 .glow-uncommon {
-  --glow-color: rgba(23, 162, 184, 0.25);
+  --glow-color: rgba(23, 162, 184, 0.3);
 }
 .glow-rare {
-  --glow-color: rgba(184, 134, 11, 0.25);
+  --glow-color: rgba(184, 134, 11, 0.3);
 }
 .glow-epic {
-  --glow-color: rgba(123, 31, 162, 0.25);
+  --glow-color: rgba(123, 31, 162, 0.3);
 }
 .glow-legendary {
-  --glow-color: rgba(255, 215, 0, 0.25);
+  --glow-color: rgba(255, 215, 0, 0.3);
 }
 
 @media (min-width: 600px) {
