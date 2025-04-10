@@ -8,11 +8,6 @@
 </head>
 <body>
   <h1>Garcia Cards</h1>
-  <div style="margin-bottom: 20px;">
-  <button onclick="location.href='game.html'" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">
-    Play the Card Game
-  </button>
-</div>
 
   <p id="scan-result">Scan a card QR to begin logging.</p>
 
@@ -41,10 +36,13 @@
 
   <button id="reset-btn">Reset Collection</button>
 
-  <!-- Zoom modal (image only) -->
-  <div id="zoom-modal" class="hidden">
+  <!-- Zoom modal (image + rarity banner) -->
+<div id="zoom-modal" class="hidden">
+  <div id="zoom-overlay-content">
+    <img id="zoom-banner" src="" alt="Rarity banner" />
     <img id="zoom-card-img" src="" alt="Scanned card" />
   </div>
+</div>
 
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
   <script src="app.js?v=beta 1.0"></script>
