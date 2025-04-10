@@ -1,14 +1,14 @@
 const CARD_LIBRARY = {
-  gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png" },
-  gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png" },
-  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png" },
-  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png" },
-  grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png" },
-  grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png" },
-  gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png" },
-  gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png" },
-  glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png" },
-  glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png" }
+  gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png", banner: "assets/COMMON banner.png" },
+  gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png", banner: "assets/COMMON banner.png" },
+  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png", banner: "assets/UNCOMMON banner.png" },
+  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png", banner: "assets/UNCOMMON banner.png" },
+  grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png", banner: "assets/RARE banner.png" },
+  grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png", banner: "assets/RARE banner.png" },
+  gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png", banner: "assets/EPIC banner.png" },
+  gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png", banner: "assets/EPIC banner.png" },
+  glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png", banner: "assets/LEGENDARY banner.png" },
+  glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png", banner: "assets/LEGENDARY banner.png" }
 };
 
 (function handleRedirectEarly() {
@@ -59,6 +59,13 @@ function updateLibrary() {
       img.addEventListener("click", () => {
         showZoomedCard(cardId);
       });
+
+      // ✅ Add rarity banner
+      const banner = document.createElement("img");
+      banner.classList.add("card-banner");
+      banner.src = cardData.banner;
+      banner.alt = `${cardData.rarity} banner`;
+      div.appendChild(banner);
 
     } else {
       div.classList.add("locked");
@@ -123,7 +130,6 @@ function setupButtons() {
   });
 }
 
-// Zoom card image only (no name/rarity overlays)
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const img = document.getElementById("zoom-card-img");
@@ -133,7 +139,7 @@ function showZoomedCard(cardId) {
   modal.classList.remove("hidden");
 }
 
-// Scanner setup
+// Scanner
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
