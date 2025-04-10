@@ -55,11 +55,15 @@ function updateLibrary() {
       div.classList.add(`rarity-${cardData.rarity}`);
       img.src = cardData.image;
       img.alt = `${cardData.name}`;
-
       img.addEventListener("click", () => {
         showZoomedCard(cardId);
       });
 
+      const banner = document.createElement("img");
+      banner.classList.add("card-banner");
+      banner.src = cardData.banner;
+      banner.alt = `${cardData.rarity} banner`;
+      div.appendChild(banner);
     } else {
       div.classList.add("locked");
       img.src = "cards/locked.png";
@@ -122,30 +126,39 @@ function setupButtons() {
     document.getElementById("zoom-modal").classList.add("hidden");
   });
 }
+
+// Zoom modal w/ glow containers
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
-  const img = document.getElementById("zoom-card-img");
-  const banner = document.getElementById("zoom-banner");
-  const modal = document.getElementById("zoom-modal");
   const overlay = document.getElementById("zoom-overlay-content");
+  const modal = document.getElementById("zoom-modal");
 
-  const rarityClass = `glow-${card.rarity.toLowerCase()}`;
+  // Clean previous contents
+  overlay.innerHTML = "";
 
-  // Clean previous glow classes
-  img.className = '';
-  banner.className = '';
-  overlay.className = '';
+  // Create banner container
+  const bannerWrap = document.createElement("div");
+  bannerWrap.className = `glow-container glow-banner glow-${card.rarity}`;
+  const bannerImg = document.createElement("img");
+  bannerImg.src = card.banner;
+  bannerImg.alt = "Rarity banner";
+  bannerImg.id = "zoom-banner";
+  bannerWrap.appendChild(bannerImg);
 
-  // Apply glow + rarity class
-  img.classList.add('glow-effect', rarityClass);
-  banner.classList.add('glow-effect', rarityClass);
+  // Create card container
+  const cardWrap = document.createElement("div");
+  cardWrap.className = `glow-container glow-card glow-${card.rarity}`;
+  const cardImg = document.createElement("img");
+  cardImg.src = card.image;
+  cardImg.alt = "Zoomed card";
+  cardImg.id = "zoom-card-img";
+  cardWrap.appendChild(cardImg);
 
-  img.src = card.image;
-  banner.src = `assets/${card.rarity.toUpperCase()} banner.png`;
-
+  // Inject into modal
+  overlay.appendChild(bannerWrap);
+  overlay.appendChild(cardWrap);
   modal.classList.remove("hidden");
 }
-
 
 // Scanner
 let videoStream = null;
