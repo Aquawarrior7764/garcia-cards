@@ -92,13 +92,19 @@ function startGame() {
     ${opponentRevealed ? `<p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>` : ''}
     ${opponentRevealed ? getOpponentStatsHTML() : ''}
     <p><strong>Choose your move:</strong></p>
+    <div id="move-buttons"></div>
   `;
+
+  const moveContainer = document.getElementById('move-buttons');
 
   ['attack', 'grab', 'shield', 'neutral'].forEach((move) => {
     const btn = document.createElement('button');
     btn.innerText = move;
-    btn.onclick = () => submitMove(move);
-    container.appendChild(btn);
+    btn.onclick = () => {
+      console.log("Selected move:", move);
+      submitMove(move);
+    };
+    moveContainer.appendChild(btn);
   });
 }
 
@@ -111,7 +117,6 @@ function getOpponentStatsHTML() {
 function submitMove(playerMove) {
   const opponentMove = getRandomMove();
 
-  // Track which opponent stat was used
   if (!opponentCard.revealedStats) opponentCard.revealedStats = new Set();
   opponentCard.revealedStats.add(opponentMove);
 
