@@ -141,7 +141,6 @@ h2 {
   background-color: #fff8dc; /* golden yellow */
 }
 
-/* Zoom Modal Overlay */
 #zoom-modal {
   position: fixed;
   top: 0;
@@ -159,22 +158,27 @@ h2 {
   display: none;
 }
 
+/* Container for banner + image to center both together */
 #zoom-overlay-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
+/* Banner stays full width relative to image */
 #zoom-banner {
-  max-width: 70%;
+  width: 80%;
+  max-width: 600px;
   height: auto;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-#zoom-card-img,
-#zoom-modal img {
-  max-width: 90vw;
-  max-height: 90vh;
+/* Card zoomed image */
+#zoom-card-img {
+  width: 90vw;
+  max-width: 600px;
+  max-height: 80vh;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: zoomFadeIn 0.2s ease;
