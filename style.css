@@ -104,6 +104,19 @@ h2 {
   display: block;
 }
 
+.card {
+  position: relative;
+}
+
+.card-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
 .locked {
   background-color: #444;
   display: flex;
