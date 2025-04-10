@@ -1,0 +1,98 @@
+body {
+  background: #002940;
+  color: white;
+  font-family: 'Avant Garde', sans-serif;
+  font-weight: lighter;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  outline: none;
+}
+
+button:hover {
+  background: LightBlue;
+  color: black;
+  transition: all 0.3s;
+}
+
+.card {
+  background: DimGray;
+  border-radius: 20px;
+  float: left;
+  margin: 1.66%;
+  padding-bottom: 21%;
+  position: relative;
+  transition: all 0.6s;
+  width: 21%;
+}
+
+h1 {
+  font-weight: lighter;
+  letter-spacing: 5px;
+  margin: 0;
+  padding-top: 10px;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+#modal-container {
+  position: relative;
+}
+
+#modal {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  display: none;
+  position: absolute;
+  margin: 9%;
+  text-align: center;
+  width: 80%;
+}
+
+.modal-text {
+  display: block;
+  letter-spacing: 2px;
+  margin: 20px;
+}
+
+#moves-and-stars {
+  display: inline-block;
+  letter-spacing: 2px;
+  width: 40%;
+}
+
+.solved {
+  box-shadow: 5px 5px 25px 3px gold,
+  -5px -5px 25px 3px gold;
+}
+
+#stars {
+  color: Gold;
+}
+
+#stripe {
+  padding: 20px 0px;
+  text-align: center;
+}
+
+.symbol {
+  color: black;
+  font-size: 3em;
+  position: absolute;
+  top: 31%;
+  left: 36%;
+}
+
+#timer {
+  display: inline-block;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  width: 40%
+}
