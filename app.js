@@ -133,9 +133,12 @@ function setupButtons() {
 function showZoomedCard(cardId) {
   const card = CARD_LIBRARY[cardId];
   const img = document.getElementById("zoom-card-img");
+  const banner = document.getElementById("zoom-banner");
   const modal = document.getElementById("zoom-modal");
 
   img.src = card.image;
+  banner.src = `assets/${card.rarity.toUpperCase()} banner.png`; // e.g., "assets/RARE banner.png"
+
   modal.classList.remove("hidden");
 }
 
