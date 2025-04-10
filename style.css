@@ -200,6 +200,26 @@ h2 {
   }
 }
 
+/* Glow Pulse Animation */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--glow-color, rgba(255, 255, 255, 0.4));
+  }
+}
+
+.glow-effect {
+  animation: glowPulse 2s infinite ease-in-out;
+}
+
+.glow-common { --glow-color: rgba(40, 167, 69, 0.5); }        /* green */
+.glow-uncommon { --glow-color: rgba(23, 162, 184, 0.5); }     /* blue-ish */
+.glow-rare { --glow-color: rgba(184, 134, 11, 0.5); }         /* bronze */
+.glow-epic { --glow-color: rgba(123, 31, 162, 0.5); }         /* purple */
+.glow-legendary { --glow-color: rgba(255, 215, 0, 0.5); }     /* gold */
+
 @media (min-width: 600px) {
   body {
     max-width: 600px;
