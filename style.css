@@ -141,6 +141,7 @@ h2 {
   background-color: #fff8dc; /* golden yellow */
 }
 
+/* Zoom modal backdrop */
 #zoom-modal {
   position: fixed;
   top: 0;
@@ -159,7 +160,7 @@ h2 {
   display: none;
 }
 
-/* Center both banner and card image */
+/* Zoom layout container */
 #zoom-overlay-content {
   display: flex;
   flex-direction: column;
@@ -167,12 +168,12 @@ h2 {
   justify-content: center;
 }
 
-/* Banner: tighter max width, slight margin */
+/* Zoomed banner */
 #zoom-banner {
   width: auto;
-  max-width: 85vw;
-  max-height: 100px;
-  margin-bottom: 16px;
+  max-width: 90vw;
+  max-height: 120px;
+  margin-bottom: 20px;
   object-fit: contain;
   display: block;
 }
@@ -203,22 +204,33 @@ h2 {
 /* Glow Pulse Animation */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
   }
   50% {
-    box-shadow: 0 0 18px var(--glow-color, rgba(255, 255, 255, 0.4));
+    box-shadow: 0 0 8px var(--glow-color, rgba(255, 255, 255, 0.3));
   }
 }
 
 .glow-effect {
-  animation: glowPulse 2s infinite ease-in-out;
+  animation: glowPulse 2.5s ease-in-out infinite;
 }
 
-.glow-common { --glow-color: rgba(40, 167, 69, 0.5); }
-.glow-uncommon { --glow-color: rgba(23, 162, 184, 0.5); }
-.glow-rare { --glow-color: rgba(184, 134, 11, 0.5); }
-.glow-epic { --glow-color: rgba(123, 31, 162, 0.5); }
-.glow-legendary { --glow-color: rgba(255, 215, 0, 0.5); }
+/* Rarity glow color mapping */
+.glow-common {
+  --glow-color: rgba(40, 167, 69, 0.3);
+}
+.glow-uncommon {
+  --glow-color: rgba(23, 162, 184, 0.3);
+}
+.glow-rare {
+  --glow-color: rgba(184, 134, 11, 0.3);
+}
+.glow-epic {
+  --glow-color: rgba(123, 31, 162, 0.3);
+}
+.glow-legendary {
+  --glow-color: rgba(255, 215, 0, 0.3);
+}
 
 @media (min-width: 600px) {
   body {
