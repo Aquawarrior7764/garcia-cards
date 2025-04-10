@@ -94,6 +94,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .card-img {
@@ -102,10 +103,6 @@ h2 {
   object-fit: contain;
   border-radius: 6px;
   display: block;
-}
-
-.card {
-  position: relative;
 }
 
 .card-banner {
@@ -135,16 +132,16 @@ h2 {
   background-color: #d1ecf1;
 }
 .rarity-rare {
-  background-color: #fff3cd;
+  background-color: #e0c7a3; /* bronze-like */
 }
 .rarity-epic {
   background-color: #f3e5f5;
 }
 .rarity-legendary {
-  background-color: #fde2e2;
+  background-color: #fff8dc; /* golden yellow */
 }
 
-/* Zoom Modal Fix */
+/* Zoom Modal Overlay */
 #zoom-modal {
   position: fixed;
   top: 0;
@@ -153,7 +150,6 @@ h2 {
   height: 100vh;
   background: rgba(0, 0, 0, 0.85);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -163,18 +159,36 @@ h2 {
   display: none;
 }
 
-#zoom-modal img,
-#zoom-img {
-  max-width: 90%;
-  max-height: 90%;
+#zoom-overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#zoom-banner {
+  max-width: 70%;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+#zoom-card-img,
+#zoom-modal img {
+  max-width: 90vw;
+  max-height: 90vh;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: zoomFadeIn 0.2s ease;
 }
 
 @keyframes zoomFadeIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @media (min-width: 600px) {
