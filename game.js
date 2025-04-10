@@ -56,6 +56,14 @@ const effectiveness = {
   neutral: null
 };
 
+// === EVENT LISTENER (handles move clicks) ===
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.matches('button[data-move]')) {
+    const move = e.target.getAttribute('data-move');
+    submitMove(move);
+  }
+});
+
 // === GAME START ===
 function startCardSelection() {
   const container = document.getElementById('game-container');
@@ -92,23 +100,13 @@ function startGame() {
     ${opponentRevealed ? `<p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>` : ''}
     ${opponentRevealed ? getOpponentStatsHTML() : ''}
     <p><strong>Choose your move:</strong></p>
-    <div id="move-buttons"></div>
+    <div id="move-buttons">
+      <button data-move="attack">Attack</button>
+      <button data-move="grab">Grab</button>
+      <button data-move="defense">Defense</button>
+      <button data-move="neutral">Neutral</button>
+    </div>
   `;
-
-  setTimeout(() => {
-    const moveContainer = document.getElementById('move-buttons');
-    if (!moveContainer) return;
-
-    ['attack', 'grab', 'defense', 'neutral'].forEach((move) => {
-      const btn = document.createElement('button');
-      btn.innerText = move;
-      btn.onclick = () => {
-        console.log("Selected move:", move);
-        submitMove(move);
-      };
-      moveContainer.appendChild(btn);
-    });
-  }, 0);
 }
 
 function getOpponentStatsHTML() {
