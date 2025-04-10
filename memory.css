@@ -23,7 +23,7 @@ button:hover {
 }
 
 .card {
-  background: DimGray;
+  background-color: DimGray;
   border-radius: 20px;
   float: left;
   margin: 1.66%;
@@ -31,6 +31,20 @@ button:hover {
   position: relative;
   transition: all 0.6s;
   width: 21%;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('cards/locked.png'); /* default back image */
+}
+
+.card.flipped {
+  background-image: var(--card-image);
+}
+
+.card.solved {
+  box-shadow: 5px 5px 25px 3px gold,
+              -5px -5px 25px 3px gold;
 }
 
 h1 {
@@ -68,11 +82,6 @@ h1 {
   width: 40%;
 }
 
-.solved {
-  box-shadow: 5px 5px 25px 3px gold,
-  -5px -5px 25px 3px gold;
-}
-
 #stars {
   color: Gold;
 }
@@ -82,17 +91,14 @@ h1 {
   text-align: center;
 }
 
-.symbol {
-  color: black;
-  font-size: 3em;
-  position: absolute;
-  top: 31%;
-  left: 36%;
-}
-
 #timer {
   display: inline-block;
   font-weight: lighter;
   letter-spacing: 2px;
-  width: 40%
+  width: 40%;
+}
+
+/* Hide the old symbol styling */
+.symbol {
+  display: none;
 }
