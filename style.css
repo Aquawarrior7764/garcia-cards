@@ -176,6 +176,9 @@ h2 {
   margin-bottom: 20px;
   object-fit: contain;
   display: block;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 2px var(--glow-color, transparent);
+  animation: glowPulse 2.5s ease-in-out infinite;
 }
 
 /* Zoomed card image */
@@ -184,8 +187,8 @@ h2 {
   max-width: 90vw;
   max-height: 80vh;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  animation: zoomFadeIn 0.2s ease;
+  box-shadow: 0 0 10px 3px var(--glow-color, transparent);
+  animation: zoomFadeIn 0.2s ease, glowPulse 2.5s ease-in-out infinite;
   display: block;
   object-fit: contain;
 }
@@ -204,32 +207,28 @@ h2 {
 /* Glow Pulse Animation */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px 1px var(--glow-color, transparent);
   }
   50% {
-    box-shadow: 0 0 8px var(--glow-color, rgba(255, 255, 255, 0.3));
+    box-shadow: 0 0 10px 3px var(--glow-color, transparent);
   }
-}
-
-.glow-effect {
-  animation: glowPulse 2.5s ease-in-out infinite;
 }
 
 /* Rarity glow color mapping */
 .glow-common {
-  --glow-color: rgba(40, 167, 69, 0.3);
+  --glow-color: rgba(40, 167, 69, 0.25);
 }
 .glow-uncommon {
-  --glow-color: rgba(23, 162, 184, 0.3);
+  --glow-color: rgba(23, 162, 184, 0.25);
 }
 .glow-rare {
-  --glow-color: rgba(184, 134, 11, 0.3);
+  --glow-color: rgba(184, 134, 11, 0.25);
 }
 .glow-epic {
-  --glow-color: rgba(123, 31, 162, 0.3);
+  --glow-color: rgba(123, 31, 162, 0.25);
 }
 .glow-legendary {
-  --glow-color: rgba(255, 215, 0, 0.3);
+  --glow-color: rgba(255, 215, 0, 0.25);
 }
 
 @media (min-width: 600px) {
