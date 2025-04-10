@@ -2,19 +2,19 @@
 const playerCards = [
   {
     name: 'Fire Lizard',
-    stats: { attack: 5, grab: 3, shield: 2, neutral: 1 },
+    stats: { attack: 5, grab: 3, defense: 2, neutral: 1 },
     hp: 12,
     bonus: 2
   },
   {
     name: 'Speed Hawk',
-    stats: { attack: 4, grab: 4, shield: 1, neutral: 3 },
+    stats: { attack: 4, grab: 4, defense: 1, neutral: 3 },
     hp: 10,
     bonus: 3
   },
   {
     name: 'Stone Guard',
-    stats: { attack: 2, grab: 2, shield: 5, neutral: 1 },
+    stats: { attack: 2, grab: 2, defense: 5, neutral: 1 },
     hp: 14,
     bonus: 1
   }
@@ -23,21 +23,21 @@ const playerCards = [
 const opponentCards = [
   {
     name: 'Dark Wraith',
-    stats: { attack: 3, grab: 5, shield: 2, neutral: 1 },
+    stats: { attack: 3, grab: 5, defense: 2, neutral: 1 },
     hp: 11,
     bonus: 2,
     revealedStats: new Set()
   },
   {
     name: 'Sky Beetle',
-    stats: { attack: 5, grab: 2, shield: 3, neutral: 2 },
+    stats: { attack: 5, grab: 2, defense: 3, neutral: 2 },
     hp: 12,
     bonus: 1,
     revealedStats: new Set()
   },
   {
     name: 'Iron Bark',
-    stats: { attack: 2, grab: 3, shield: 4, neutral: 2 },
+    stats: { attack: 2, grab: 3, defense: 4, neutral: 2 },
     hp: 13,
     bonus: 3,
     revealedStats: new Set()
@@ -51,8 +51,8 @@ let opponentRevealed = false;
 
 const effectiveness = {
   attack: 'grab',
-  grab: 'shield',
-  shield: 'neutral',
+  grab: 'defense',
+  defense: 'neutral',
   neutral: null
 };
 
@@ -67,7 +67,7 @@ function startCardSelection() {
     cardDiv.innerHTML = `
       <strong>${card.name}</strong><br>
       HP: ${card.hp}<br>
-      Attack: ${card.stats.attack}, Grab: ${card.stats.grab}, Shield: ${card.stats.shield}, Neutral: ${card.stats.neutral}<br>
+      Attack: ${card.stats.attack}, Grab: ${card.stats.grab}, Defense: ${card.stats.defense}, Neutral: ${card.stats.neutral}<br>
       Bonus vs effective type: +${card.bonus}<br>
       <button onclick="selectCard(${index})">Choose</button>
     `;
@@ -87,7 +87,7 @@ function startGame() {
     <h2>Round ${round}</h2>
     <p><strong>Your Card:</strong> ${yourCard.name}</p>
     <p><strong>Your HP:</strong> ${yourCard.hp}</p>
-    <p><strong>Your Stats:</strong> Attack: ${yourCard.stats.attack}, Grab: ${yourCard.stats.grab}, Shield: ${yourCard.stats.shield}, Neutral: ${yourCard.stats.neutral}</p>
+    <p><strong>Your Stats:</strong> Attack: ${yourCard.stats.attack}, Grab: ${yourCard.stats.grab}, Defense: ${yourCard.stats.defense}, Neutral: ${yourCard.stats.neutral}</p>
     ${opponentRevealed ? `<p><strong>Opponent Card:</strong> ${opponentCard.name}</p>` : ''}
     ${opponentRevealed ? `<p><strong>Opponent HP:</strong> ${opponentCard.hp}</p>` : ''}
     ${opponentRevealed ? getOpponentStatsHTML() : ''}
@@ -95,17 +95,20 @@ function startGame() {
     <div id="move-buttons"></div>
   `;
 
-  const moveContainer = document.getElementById('move-buttons');
+  setTimeout(() => {
+    const moveContainer = document.getElementById('move-buttons');
+    if (!moveContainer) return;
 
-  ['attack', 'grab', 'shield', 'neutral'].forEach((move) => {
-    const btn = document.createElement('button');
-    btn.innerText = move;
-    btn.onclick = () => {
-      console.log("Selected move:", move);
-      submitMove(move);
-    };
-    moveContainer.appendChild(btn);
-  });
+    ['attack', 'grab', 'defense', 'neutral'].forEach((move) => {
+      const btn = document.createElement('button');
+      btn.innerText = move;
+      btn.onclick = () => {
+        console.log("Selected move:", move);
+        submitMove(move);
+      };
+      moveContainer.appendChild(btn);
+    });
+  }, 0);
 }
 
 function getOpponentStatsHTML() {
@@ -131,7 +134,7 @@ function submitMove(playerMove) {
 }
 
 function getRandomMove() {
-  const moves = ['attack', 'grab', 'shield', 'neutral'];
+  const moves = ['attack', 'grab', 'defense', 'neutral'];
   return moves[Math.floor(Math.random() * moves.length)];
 }
 
