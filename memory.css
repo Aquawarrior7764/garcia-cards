@@ -25,8 +25,7 @@ button:hover {
 #container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  justify-items: center;
+  gap: 1.5%;
   padding: 20px;
 }
 
@@ -35,38 +34,36 @@ button:hover {
   border-radius: 12px;
   aspect-ratio: 2.5 / 3.5;
   width: 100%;
-  max-width: 100px;
+  position: relative;
+  transition: all 0.6s;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('cards/locked.png');
-  position: relative;
-  transition: all 0.6s;
 }
 
 .card.flipped {
   background-image: var(--card-image);
 }
 
-/* Rarity-specific solved glow */
-.card.solved[data-rarity="common"] {
-  box-shadow: 0 0 20px 4px #28a745;
+.card.solved.common {
+  box-shadow: 0 0 15px 5px #cd7f32; /* Bronze for common */
 }
 
-.card.solved[data-rarity="uncommon"] {
-  box-shadow: 0 0 20px 4px #007bff;
+.card.solved.uncommon {
+  box-shadow: 0 0 15px 5px #1565c0; /* Darker blue for uncommon */
 }
 
-.card.solved[data-rarity="rare"] {
-  box-shadow: 0 0 20px 4px #cd7f32; /* bronze */
+.card.solved.rare {
+  box-shadow: 0 0 15px 5px #2e7d32; /* Green for rare */
 }
 
-.card.solved[data-rarity="epic"] {
-  box-shadow: 0 0 20px 4px #8e44ad;
+.card.solved.epic {
+  box-shadow: 0 0 15px 5px #7b1fa2; /* Purple for epic */
 }
 
-.card.solved[data-rarity="legendary"] {
-  box-shadow: 0 0 20px 4px gold;
+.card.solved.legendary {
+  box-shadow: 0 0 15px 5px gold; /* Gold for legendary */
 }
 
 h1 {
@@ -86,16 +83,20 @@ h1 {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
   display: none;
-  position: absolute;
-  margin: 9%;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  width: 80%;
+  width: 90%;
+  z-index: 1000;
+  padding: 20px;
 }
 
 .modal-text {
   display: block;
   letter-spacing: 2px;
-  margin: 20px;
+  margin: 10px 0;
 }
 
 #moves-and-stars {
@@ -109,7 +110,7 @@ h1 {
 }
 
 #stripe {
-  padding: 20px 0px;
+  padding: 20px 0;
   text-align: center;
 }
 
