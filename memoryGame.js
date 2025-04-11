@@ -34,7 +34,7 @@ function addResetListener() {
 function generateGameCards() {
   const unlocked = JSON.parse(localStorage.getItem("scannedCards")) || [];
   const defaultCards = ["gcu1", "gcu2", "guc1", "guc2", "grc1", "grc2", "gec1", "gec2"];
-  const selectedCards = unlocked.length >= 8 ? unlocked.slice(0, 8) : defaultCards;
+  const selectedCards = unlocked.length >= 8 ? shuffle(unlocked).slice(0, 8) : defaultCards;
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
 
   cards.forEach((card, index) => {
