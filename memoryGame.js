@@ -1,4 +1,3 @@
-const cards = document.querySelectorAll(".card");
 const modal = document.querySelector("#modal");
 const moveCounter = document.querySelector("#move-counter");
 const movePlural = document.querySelector("#move-plural");
@@ -25,8 +24,6 @@ const RARITY_MAP = {
   glc1: "legendary", glc2: "legendary"
 };
 
-init();
-
 function init() {
   addResetListener();
   generateGameCards();
@@ -43,7 +40,9 @@ function generateGameCards() {
   const selectedCards = unlocked.length >= 8 ? shuffle(unlocked).slice(0, 8) : defaultCards;
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
 
-  cards.forEach((card, index) => {
+  const containerCards = document.querySelectorAll(".card");
+
+  containerCards.forEach((card, index) => {
     const cardId = gameCards[index];
     const rarity = RARITY_MAP[cardId] || "common";
 
@@ -77,22 +76,24 @@ function shuffle(array) {
 }
 
 function setCardListeners() {
-  cards.forEach((card) => {
+  const containerCards = document.querySelectorAll(".card");
+
+  containerCards.forEach((card) => {
     card.addEventListener("click", function () {
       const inner = this.querySelector('.card-inner');
-      if (!inner.classList.contains("flipped") && !inner.classList.contains("solved")) {
-        inner.classList.add("flipped");
+      if (!inner || inner.classList.contains("flipped") || inner.classList.contains("solved")) return;
 
-        if (firstClick) {
-          firstCard = this;
-          firstClick = false;
-        } else {
-          const secondCard = this;
-          updateMoveCount();
-          updateStarCount();
-          checkForSolved(firstCard, secondCard);
-          firstClick = true;
-        }
+      inner.classList.add("flipped");
+
+      if (firstClick) {
+        firstCard = this;
+        firstClick = false;
+      } else {
+        const secondCard = this;
+        updateMoveCount();
+        updateStarCount();
+        checkForSolved(firstCard, secondCard);
+        firstClick = true;
       }
     });
   });
@@ -148,3 +149,5 @@ function updateStarCount() {
   if (moveCount === 14) stars.textContent = "★★☆";
   if (moveCount === 17) stars.textContent = "★☆☆";
 }
+
+window.addEventListener("DOMContentLoaded", init);
