@@ -66,7 +66,6 @@
     if (playableCards.length < 8) {
       container.innerHTML = "<p style='text-align:center;'>You need at least 8 unlocked cards to play the game.</p>";
     } else {
-      // Duplicate and shuffle cards
       const selectedCards = playableCards.slice(0, 8);
       const gameCards = [...selectedCards, ...selectedCards].sort(() => 0.5 - Math.random());
 
@@ -75,17 +74,23 @@
         card.classList.add("card");
         card.dataset.cardId = cardId;
 
-        const symbol = document.createElement("span");
-        symbol.classList.add("symbol");
-        symbol.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
+        const inner = document.createElement("div");
+        inner.classList.add("card-inner");
 
-        card.appendChild(symbol);
+        const front = document.createElement("div");
+        front.classList.add("card-front");
+        front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
+
+        const back = document.createElement("div");
+        back.classList.add("card-back");
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        card.appendChild(inner);
         container.appendChild(card);
       });
-
-      // Initialize game logic here or in memoryGame.js
     }
   </script>
-  <script src="memoryGame.js?v=1.0.2"></script>
+  <script src="memoryGame.js?v=1.0.3"></script>
 </body>
 </html>
