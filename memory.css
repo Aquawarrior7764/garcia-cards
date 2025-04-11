@@ -24,18 +24,16 @@ button:hover {
 
 .card {
   background-color: DimGray;
-  border-radius: 20px;
-  float: left;
-  margin: 1.66%;
-  padding-bottom: 21%;
+  border-radius: 12px;
+  margin: 1.5%;
+  width: calc((100% / 4) - 3%); /* 4 cards per row, adjust for margin */
+  aspect-ratio: 2.5 / 3.5;
   position: relative;
   transition: all 0.6s;
-  width: 21%;
-
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('cards/locked.png'); /* default back image */
+  background-image: url('cards/locked.png');
 }
 
 .card.flipped {
