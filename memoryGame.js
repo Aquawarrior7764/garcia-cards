@@ -18,22 +18,11 @@ let zeroSecond = true;
 const intervalID = window.setInterval(timerDisplay, 1000);
 
 const RARITY_MAP = {
-  gcu1: "common",
-  gcu2: "common",
-  gcu3: "common",
-  gcu4: "common",
-  gcu5: "common",
-  guc1: "uncommon",
-  guc2: "uncommon",
-  guc3: "uncommon",
-  guc4: "uncommon",
-  grc1: "rare",
-  grc2: "rare",
-  grc3: "rare",
-  gec1: "epic",
-  gec2: "epic",
-  glc1: "legendary",
-  glc2: "legendary"
+  gcu1: "common", gcu2: "common", gcu3: "common", gcu4: "common", gcu5: "common",
+  guc1: "uncommon", guc2: "uncommon", guc3: "uncommon", guc4: "uncommon",
+  grc1: "rare", grc2: "rare", grc3: "rare",
+  gec1: "epic", gec2: "epic",
+  glc1: "legendary", glc2: "legendary"
 };
 
 init();
@@ -45,9 +34,7 @@ function init() {
 }
 
 function addResetListener() {
-  resetButton.addEventListener("click", function () {
-    location.reload();
-  });
+  resetButton.addEventListener("click", () => location.reload());
 }
 
 function generateGameCards() {
@@ -58,11 +45,26 @@ function generateGameCards() {
 
   cards.forEach((card, index) => {
     const cardId = gameCards[index];
-    card.dataset.cardId = cardId;
-    card.style.setProperty('--card-image', `url(cards/${cardId}.png)`);
-
     const rarity = RARITY_MAP[cardId] || "common";
+
+    card.dataset.cardId = cardId;
     card.dataset.rarity = rarity;
+    card.className = "card";
+
+    const inner = document.createElement("div");
+    inner.className = "card-inner";
+
+    const front = document.createElement("div");
+    front.className = "card-front";
+    front.style.backgroundImage = `url(cards/${cardId}.png)`;
+
+    const back = document.createElement("div");
+    back.className = "card-back";
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.innerHTML = "";
+    card.appendChild(inner);
   });
 }
 
@@ -77,8 +79,9 @@ function shuffle(array) {
 function setCardListeners() {
   cards.forEach((card) => {
     card.addEventListener("click", function () {
-      if (!this.classList.contains("solved") && !this.classList.contains("flipped")) {
-        this.classList.add("flipped");
+      const inner = this.querySelector('.card-inner');
+      if (!inner.classList.contains("flipped") && !inner.classList.contains("solved")) {
+        inner.classList.add("flipped");
 
         if (firstClick) {
           firstCard = this;
@@ -98,15 +101,19 @@ function setCardListeners() {
 function checkForSolved(card1, card2) {
   const id1 = card1.dataset.cardId;
   const id2 = card2.dataset.cardId;
+  const rarity = card1.dataset.rarity;
+
+  const inner1 = card1.querySelector(".card-inner");
+  const inner2 = card2.querySelector(".card-inner");
 
   if (id1 === id2) {
-    card1.classList.add("solved");
-    card2.classList.add("solved");
+    inner1.classList.add("solved", rarity);
+    inner2.classList.add("solved", rarity);
     checkForWin();
   } else {
     setTimeout(() => {
-      card1.classList.remove("flipped");
-      card2.classList.remove("flipped");
+      inner1.classList.remove("flipped");
+      inner2.classList.remove("flipped");
     }, 600);
   }
 }
@@ -117,13 +124,7 @@ function checkForWin() {
     timerOn = false;
     setTimeout(() => {
       modal.style.display = "block";
-      if (stars.textContent === "★★★") {
-        winText.textContent = `Three stars, amazing! It took you ${t} seconds this time.`;
-      } else if (stars.textContent === "★★☆") {
-        winText.textContent = `Two stars, not bad. It took you ${t} seconds this time.`;
-      } else {
-        winText.textContent = `Only one star? I'm sure you can do better! It took you ${t} seconds this time.`;
-      }
+      winText.textContent = `It took you ${t} seconds this time.`;
     }, 600);
   }
 }
@@ -134,9 +135,7 @@ function timerDisplay() {
     zeroSecond = false;
   }
   timer.textContent = "Time: " + t;
-  if (timerOn) {
-    t++;
-  }
+  if (timerOn) t++;
 }
 
 function updateMoveCount() {
@@ -146,10 +145,6 @@ function updateMoveCount() {
 }
 
 function updateStarCount() {
-  if (moveCount === 14) {
-    stars.textContent = "★★☆";
-  }
-  if (moveCount === 17) {
-    stars.textContent = "★☆☆";
-  }
+  if (moveCount === 14) stars.textContent = "★★☆";
+  if (moveCount === 17) stars.textContent = "★☆☆";
 }
