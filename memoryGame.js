@@ -17,6 +17,25 @@ let zeroSecond = true;
 
 const intervalID = window.setInterval(timerDisplay, 1000);
 
+const RARITY_MAP = {
+  gcu1: "common",
+  gcu2: "common",
+  gcu3: "common",
+  gcu4: "common",
+  gcu5: "common",
+  guc1: "uncommon",
+  guc2: "uncommon",
+  guc3: "uncommon",
+  guc4: "uncommon",
+  grc1: "rare",
+  grc2: "rare",
+  grc3: "rare",
+  gec1: "epic",
+  gec2: "epic",
+  glc1: "legendary",
+  glc2: "legendary"
+};
+
 init();
 
 function init() {
@@ -41,6 +60,9 @@ function generateGameCards() {
     const cardId = gameCards[index];
     card.dataset.cardId = cardId;
     card.style.setProperty('--card-image', `url(cards/${cardId}.png)`);
+
+    const rarity = RARITY_MAP[cardId] || "common";
+    card.dataset.rarity = rarity;
   });
 }
 
