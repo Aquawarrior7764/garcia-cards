@@ -69,25 +69,25 @@ button:hover {
   background-image: url('cards/locked.png');
 }
 
-/* Solved glow coloring */
+/* Solved glow coloring (updated + softened) */
 .card-inner.solved.common {
-  box-shadow: 0 0 15px 5px #cd7f32; /* Bronze */
+  box-shadow: 0 0 10px 3px #2e7d32; /* Green */
 }
 
 .card-inner.solved.uncommon {
-  box-shadow: 0 0 15px 5px #1565c0; /* Darker blue */
+  box-shadow: 0 0 10px 3px #1e88e5; /* Blue */
 }
 
 .card-inner.solved.rare {
-  box-shadow: 0 0 15px 5px #2e7d32; /* Green */
+  box-shadow: 0 0 10px 3px #cd7f32; /* Bronze */
 }
 
 .card-inner.solved.epic {
-  box-shadow: 0 0 15px 5px #7b1fa2; /* Purple */
+  box-shadow: 0 0 10px 3px #8e24aa; /* Purple */
 }
 
 .card-inner.solved.legendary {
-  box-shadow: 0 0 15px 5px gold; /* Gold */
+  box-shadow: 0 0 10px 3px gold; /* Gold */
 }
 
 h1 {
