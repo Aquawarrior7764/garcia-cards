@@ -6,15 +6,16 @@
   <script>
     (function () {
       const params = new URLSearchParams(window.location.search);
-      const encryptedKey = params.get("card");
+      const raw = params.get("card");
+      const encrypted = raw?.split(";")[0];
 
-      if (encryptedKey) {
+      if (encrypted) {
         const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
         const updated = new Set(saved);
-        updated.add(encryptedKey);
-        localStorage.setItem("scannedCards", JSON.stringify([...updated]));
+        updated.add(encrypted);
 
-        window.location.href = `index.html?card=${encryptedKey}`;
+        localStorage.setItem("scannedCards", JSON.stringify([...updated]));
+        window.location.href = `index.html?card=${raw}`;
       } else {
         window.location.href = "index.html";
       }
