@@ -2,39 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Garcia Cards – Adventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="stylesheets/style.css" />
-  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon" />
+  <title>Garcia Cards</title>
+  <link rel="stylesheet" href="style.css?v=1.4" />
 </head>
-
 <body>
-  <div id="content">
-    <canvas id="game-canvas" width="0" height="0"></canvas>
+  <h1>Garcia Cards</h1>
 
-    <div class="play-guide">
-      <h1>How to play</h1>
-      <p>
-        Garcia Card Fu is a fast-paced strategy game based on classic Club Penguin card battles.
-        It’s like Rock-Paper-Scissors… but with mind games. Each turn, play a card to try and outsmart your opponent.
-        Win by collecting 3 unique element-color cards, or a set of same elements in unique colors.
-      </p>
-      <h3>Pro Tips</h3>
-      <ul>
-        <li>Think ahead: Predict what Garcia might throw down next.</li>
-        <li>Mind games: Counter the counter-counter play!</li>
-        <li>Go with your gut: Sometimes simple beats sneaky.</li>
-      </ul>
+  <div style="margin-bottom: 20px; text-align: center;">
+    <button id="game-btn" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">
+      Play Matching Game
+    </button>
+  </div>
+
+  <a href="cardfu/index.html" class="btn btn-primary">Play Garcia Card Fu</a>
+
+  <p id="scan-result">Scan a card QR to begin logging.</p>
+
+  <section id="recent-card-section">
+    <h2>Most Recently Scanned Card</h2>
+    <div id="recent-card" class="card-placeholder">
+      <p>No cards scanned yet.</p>
+    </div>
+  </section>
+
+  <section>
+    <button id="toggle-library-btn">View Library</button>
+    <div id="library-container" class="hidden">
+      <h2>Card Library (<span id="collection-count">0</span>/16)</h2>
+      <div id="card-library" class="card-grid"></div>
+    </div>
+  </section>
+
+  <section>
+    <button id="toggle-scanner-btn">Toggle Scanner</button>
+    <div id="scanner-container" style="display: none;">
+      <video id="scanner-video" playsinline></video>
+      <canvas id="scanner-canvas" style="display: none;"></canvas>
+    </div>
+  </section>
+
+  <button id="reset-btn">Reset Collection</button>
+
+  <div id="zoom-modal" class="hidden">
+    <div id="zoom-overlay-content">
+      <img id="zoom-banner" src="" alt="Rarity banner" />
+      <img id="zoom-card-img" src="" alt="Scanned card" />
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-2.2.2.min.js"
-    integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.js"></script>
-  <script src="https://garcia-cardfu-server.onrender.com/socket.io/socket.io.js"></script>
-  <script src="javascripts/game_client.js"></script>
-  <script src="javascripts/canvas.js"></script>
-  <script src="javascripts/konami.js"></script>
+  <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+  <script src="app.js?v=beta 1.0.5"></script>
+
+  <script>
+    const gameBtn = document.getElementById("game-btn");
+    const scanned = JSON.parse(localStorage.getItem("scannedCards")) || [];
+    if (scanned.length >= 8) {
+      gameBtn.onclick = () => location.href = "game1.html";
+    } else {
+      gameBtn.disabled = true;
+      gameBtn.textContent = "Play Matching Game (8 cards required)";
+      gameBtn.style.opacity = "0.5";
+      gameBtn.style.cursor = "not-allowed";
+    }
+  </script>
+
+  <p style="text-align:center; font-size: 12px; margin-top: 20px;">
+    vbeta 1.0.wellwellwell – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
+  </p>
 </body>
 </html>
