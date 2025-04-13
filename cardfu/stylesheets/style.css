@@ -1,0 +1,19 @@
+canvas {
+	border: 1px solid black;
+	margin-top: 2vh;
+  	z-index: 0;
+}
+
+.play-guide {
+	margin: 5%;
+}
+
+@font-face {
+    font-family: "ChineseTakeaway";
+    src: url("../fonts/ChineseTakeaway.ttf");
+}
+
+@font-face {
+    font-family: "RagingRedLotusBB";
+    src: url("../fonts/RagingRedLotusBB.ttf");
+}
