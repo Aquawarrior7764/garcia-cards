@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const cardId = params.get("card");
+    (function () {
+      const match = window.location.search.match(/[?&]card=([^&]+)/);
+      const rawCardParam = match ? decodeURIComponent(match[1]) : null;
+      const cardId = rawCardParam ? rawCardParam.split(";")[1] || rawCardParam : null;
 
       if (cardId) {
         const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
         const updated = new Set(saved);
         updated.add(cardId);
+
         localStorage.setItem("scannedCards", JSON.stringify([...updated]));
 
-        // Add a short delay to ensure localStorage is written before redirecting
-        setTimeout(() => {
-          window.location.href = `index.html?card=${cardId}`;
-        }, 100); // 100ms is typically enough
+        // Redirect with full raw string so index.html can handle full value
+        window.location.href = `index.html?card=${rawCardParam}`;
       } else {
         window.location.href = "index.html";
       }
