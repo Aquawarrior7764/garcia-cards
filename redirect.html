@@ -9,16 +9,15 @@
       const cardId = params.get("card");
 
       if (cardId) {
-        // Retrieve existing collection or start fresh
         const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
         const updated = new Set(saved);
         updated.add(cardId);
-
-        // Save back to localStorage
         localStorage.setItem("scannedCards", JSON.stringify([...updated]));
 
-        // Redirect to root index with card param
-        window.location.href = `index.html?card=${cardId}`;
+        // Add a short delay to ensure localStorage is written before redirecting
+        setTimeout(() => {
+          window.location.href = `index.html?card=${cardId}`;
+        }, 100); // 100ms is typically enough
       } else {
         window.location.href = "index.html";
       }
