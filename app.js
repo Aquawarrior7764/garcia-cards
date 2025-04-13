@@ -1,20 +1,20 @@
 const CARD_LIBRARY = {
-  gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png", banner: "assets/COMMON banner.png" },
-  gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png", banner: "assets/COMMON banner.png" },
-  gcu3: { name: "GarciaCardCommon3", rarity: "common", image: "cards/gcu3.png", banner: "assets/COMMON banner.png" },
-  gcu4: { name: "GarciaCardCommon4", rarity: "common", image: "cards/gcu4.png", banner: "assets/COMMON banner.png" },
-  gcu5: { name: "GarciaCardCommon5", rarity: "common", image: "cards/gcu5.png", banner: "assets/COMMON banner.png" },
-  guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png", banner: "assets/UNCOMMON banner.png" },
-  guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png", banner: "assets/UNCOMMON banner.png" },
-  guc3: { name: "GarciaCardUncommon3", rarity: "uncommon", image: "cards/guc3.png", banner: "assets/UNCOMMON banner.png" },
-  guc4: { name: "GarciaCardUncommon4", rarity: "uncommon", image: "cards/guc4.png", banner: "assets/UNCOMMON banner.png" },
-  grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png", banner: "assets/RARE banner.png" },
-  grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png", banner: "assets/RARE banner.png" },
-  grc3: { name: "GarciaCardRare3", rarity: "rare", image: "cards/grc3.png", banner: "assets/RARE banner.png" },
-  gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png", banner: "assets/EPIC banner.png" },
-  gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png", banner: "assets/EPIC banner.png" },
-  glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png", banner: "assets/LEGENDARY banner.png" },
-  glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png", banner: "assets/LEGENDARY banner.png" }
+  gcu1: { name: "Cool Garcia", rarity: "common", image: "cards/gcu1.png", banner: "assets/COMMON banner.png" },
+  gcu2: { name: "Sports Announcer Garcia", rarity: "common", image: "cards/gcu2.png", banner: "assets/COMMON banner.png" },
+  gcu3: { name: "Bush Camper Garcia", rarity: "common", image: "cards/gcu3.png", banner: "assets/COMMON banner.png" },
+  gcu4: { name: "Orange Shirt Garcia", rarity: "common", image: "cards/gcu4.png", banner: "assets/COMMON banner.png" },
+  gcu5: { name: "Masked Garcia", rarity: "common", image: "cards/gcu5.png", banner: "assets/COMMON banner.png" },
+  guc1: { name: "Old Garcia", rarity: "uncommon", image: "cards/guc1.png", banner: "assets/UNCOMMON banner.png" },
+  guc2: { name: "Emo Garcia", rarity: "uncommon", image: "cards/guc2.png", banner: "assets/UNCOMMON banner.png" },
+  guc3: { name: "Mid-Life Garcia", rarity: "uncommon", image: "cards/guc3.png", banner: "assets/UNCOMMON banner.png" },
+  guc4: { name: "Ai Garcia", rarity: "uncommon", image: "cards/guc4.png", banner: "assets/UNCOMMON banner.png" },
+  grc1: { name: "Aviator Garcia", rarity: "rare", image: "cards/grc1.png", banner: "assets/RARE banner.png" },
+  grc2: { name: "Camping Garcia", rarity: "rare", image: "cards/grc2.png", banner: "assets/RARE banner.png" },
+  grc3: { name: "Sleepy Garcia", rarity: "rare", image: "cards/grc3.png", banner: "assets/RARE banner.png" },
+  gec1: { name: "Smart Garcia", rarity: "epic", image: "cards/gec1.png", banner: "assets/EPIC banner.png" },
+  gec2: { name: "King Garcia", rarity: "epic", image: "cards/gec2.png", banner: "assets/EPIC banner.png" },
+  glc1: { name: "Rasta Hat Garcia", rarity: "legendary", image: "cards/glc1.png", banner: "assets/LEGENDARY banner.png" },
+  glc2: { name: "Chicken and Garcia", rarity: "legendary", image: "cards/glc2.png", banner: "assets/LEGENDARY banner.png" }
 };
 
 const ENCRYPTED_CARD_MAP = {
