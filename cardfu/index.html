@@ -1,29 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>CardFu!</title>
-  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-  <link rel="shortcut icon" type="image/png" href="images/cardfu_favicon.png"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Garcia Cards – Adventure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="stylesheets/style.css" />
+  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon" />
 </head>
-<body>
+
+<body style="background-color: #DFDBE5;">
   <div id="content">
     <canvas id="game-canvas" class="center-block" width="0" height="0"></canvas>
 
     <div class="play-guide">
       <h1>How to play</h1>
-      <p>Card Fu is a simple strategy card game based on Club Penguin’s Card-Jitsu. Each round, play a card. Win if your element beats theirs (Water > Fire > Ice > Water), or if same element, higher power wins. Collect 3 winning cards to win the game.</p>
-      <h3>Pro Tips!</h3>
+      <p>
+        Garcia Adventure is a fast-paced strategy game based on classic Club Penguin card battles.
+        It’s like Rock-Paper-Scissors… but with mind games. Each turn, play a card to try and outsmart your opponent.
+        Win by collecting 3 unique element-color cards, or a set of same elements in unique colors.
+      </p>
+      <h3>Pro Tips</h3>
       <ul>
-        <li>Track your opponent’s needs and predict their move.</li>
-        <li>Counter their counter-move (or double-bluff them!).</li>
-        <li>Sometimes just go with your gut instinct.</li>
+        <li>Think ahead: Predict what Garcia might throw down next.</li>
+        <li>Mind games: Counter the counter-counter play!</li>
+        <li>Go with your gut: Sometimes simple beats sneaky.</li>
       </ul>
     </div>
   </div>
 
-  <script src="../jsqr.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.2.min.js"
+    integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.js"></script>
+
+  <!-- Disabled for static hosting; can re-enable if using a Node backend -->
+  <!-- <script src="/socket.io/socket.io.js"></script> -->
+
   <script src="javascripts/game_client.js"></script>
   <script src="javascripts/canvas.js"></script>
   <script src="javascripts/konami.js"></script>
