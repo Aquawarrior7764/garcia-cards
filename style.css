@@ -239,3 +239,28 @@ h2 {
     margin: auto;
   }
 }
+
+.scanned-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+}
+
+.scanned-card .card-img {
+  width: 100%;
+  max-width: 180px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.scanned-card .rarity-banner {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  max-width: 180px;
+  z-index: 2;
+  pointer-events: none;
+}
