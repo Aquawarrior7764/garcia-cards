@@ -100,10 +100,15 @@ function handleScannedCard(cardId) {
   saveScannedCards();
   updateLibrary();
 
-  const { name, rarity } = CARD_LIBRARY[cardId];
+  const { name, rarity, image, banner } = CARD_LIBRARY[cardId];
   const recent = document.getElementById("recent-card");
-  recent.className = "card rarity-" + rarity;
-  recent.innerText = `${name} (${capitalize(rarity)})`;
+  recent.className = "card scanned-card";
+  recent.innerHTML = `
+    <div class="glow-container glow-card glow-${rarity}">
+      <img src="${image}" alt="${name}" class="card-img" />
+      <img src="${banner}" alt="${rarity} banner" class="rarity-banner" />
+    </div>
+  `;
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
 }
@@ -172,7 +177,7 @@ function showZoomedCard(cardId) {
   modal.classList.remove("hidden");
 }
 
-// QR Scanner
+// Scanner
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
