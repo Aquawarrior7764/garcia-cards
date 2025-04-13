@@ -1,32 +1,30 @@
 const CARD_LIBRARY = {
-  // Common (5)
   gcu1: { name: "GarciaCardCommon1", rarity: "common", image: "cards/gcu1.png", banner: "assets/COMMON banner.png" },
   gcu2: { name: "GarciaCardCommon2", rarity: "common", image: "cards/gcu2.png", banner: "assets/COMMON banner.png" },
   gcu3: { name: "GarciaCardCommon3", rarity: "common", image: "cards/gcu3.png", banner: "assets/COMMON banner.png" },
   gcu4: { name: "GarciaCardCommon4", rarity: "common", image: "cards/gcu4.png", banner: "assets/COMMON banner.png" },
   gcu5: { name: "GarciaCardCommon5", rarity: "common", image: "cards/gcu5.png", banner: "assets/COMMON banner.png" },
-
-  // Uncommon (4)
   guc1: { name: "GarciaCardUncommon1", rarity: "uncommon", image: "cards/guc1.png", banner: "assets/UNCOMMON banner.png" },
   guc2: { name: "GarciaCardUncommon2", rarity: "uncommon", image: "cards/guc2.png", banner: "assets/UNCOMMON banner.png" },
   guc3: { name: "GarciaCardUncommon3", rarity: "uncommon", image: "cards/guc3.png", banner: "assets/UNCOMMON banner.png" },
   guc4: { name: "GarciaCardUncommon4", rarity: "uncommon", image: "cards/guc4.png", banner: "assets/UNCOMMON banner.png" },
-
-  // Rare (3)
   grc1: { name: "GarciaCardRare1", rarity: "rare", image: "cards/grc1.png", banner: "assets/RARE banner.png" },
   grc2: { name: "GarciaCardRare2", rarity: "rare", image: "cards/grc2.png", banner: "assets/RARE banner.png" },
   grc3: { name: "GarciaCardRare3", rarity: "rare", image: "cards/grc3.png", banner: "assets/RARE banner.png" },
-
-  // Epic (2)
   gec1: { name: "GarciaCardEpic1", rarity: "epic", image: "cards/gec1.png", banner: "assets/EPIC banner.png" },
   gec2: { name: "GarciaCardEpic2", rarity: "epic", image: "cards/gec2.png", banner: "assets/EPIC banner.png" },
-
-  // Legendary (2)
   glc1: { name: "GarciaCardLegendary1", rarity: "legendary", image: "cards/glc1.png", banner: "assets/LEGENDARY banner.png" },
   glc2: { name: "GarciaCardLegendary2", rarity: "legendary", image: "cards/glc2.png", banner: "assets/LEGENDARY banner.png" }
 };
 
-// Remainder of app.js (same as before) – already correctly structured for any card count:
+const ENCRYPTED_CARD_MAP = {
+  a3x7kg: "gcu1", k9mz2p: "gcu2", v2y8wd: "gcu3", j1qb5t: "gcu4", x4le9m: "gcu5",
+  d0rn6a: "guc1", f7w3cy: "guc2", m3pz8k: "guc3", p9xu2d: "guc4",
+  h8lj3s: "grc1", u5mn9q: "grc2", z2rx0c: "grc3",
+  n4cy7b: "gec1", q7dk1r: "gec2",
+  t6wy9z: "glc1", e1bj5v: "glc2"
+};
+
 (function handleRedirectEarly() {
   const redirectedCard = localStorage.getItem("scannedCardRedirect");
   if (redirectedCard) {
@@ -42,13 +40,17 @@ let scannedCards = new Set();
 function loadScannedFromStorage() {
   const saved = JSON.parse(localStorage.getItem("scannedCards"));
   if (saved && Array.isArray(saved)) {
-    scannedCards = new Set(saved);
+    const decrypted = saved.map(slug => ENCRYPTED_CARD_MAP[slug]).filter(Boolean);
+    scannedCards = new Set(decrypted);
   }
   updateLibrary();
 }
 
 function saveScannedCards() {
-  localStorage.setItem("scannedCards", JSON.stringify([...scannedCards]));
+  const encrypted = [...scannedCards].map(id =>
+    Object.entries(ENCRYPTED_CARD_MAP).find(([key, val]) => val === id)?.[0]
+  ).filter(Boolean);
+  localStorage.setItem("scannedCards", JSON.stringify(encrypted));
 }
 
 function updateLibrary() {
@@ -111,9 +113,9 @@ function handleScannedCard(cardId) {
 
 function checkURLForCardScan() {
   const params = new URLSearchParams(window.location.search);
-  const cardId = params.get("card");
-  if (!cardId) return;
-  handleScannedCard(cardId);
+  const encrypted = params.get("card");
+  const cardId = ENCRYPTED_CARD_MAP[encrypted];
+  if (cardId) handleScannedCard(cardId);
 }
 
 function setupButtons() {
@@ -218,18 +220,18 @@ function scanLoop() {
 
       try {
         const parsed = new URL(code.data, window.location.origin);
-        cardId = parsed.searchParams.get("card");
-      } catch (e) {
-        if (CARD_LIBRARY[code.data]) {
-          cardId = code.data;
-        }
-      }
+        const encrypted = parsed.searchParams.get("card");
+        cardId = ENCRYPTED_CARD_MAP[encrypted];
+      } catch (e) {}
 
-      if (cardId && CARD_LIBRARY[cardId]) {
-        localStorage.setItem("scannedCardRedirect", cardId);
-        window.location.href = `https://garciacards.net/redirect.html`;
-        stopScanner();
-        return;
+      if (cardId) {
+        const encryptedKey = Object.entries(ENCRYPTED_CARD_MAP).find(([, val]) => val === cardId)?.[0];
+        if (encryptedKey) {
+          localStorage.setItem("scannedCardRedirect", encryptedKey);
+          window.location.href = `https://garciacards.net/redirect.html`;
+          stopScanner();
+          return;
+        }
       }
     }
   }
