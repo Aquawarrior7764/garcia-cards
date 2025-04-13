@@ -71,8 +71,10 @@ function updateLibrary() {
     if (scannedCards.has(cardId)) {
       div.classList.add(`rarity-${cardData.rarity}`);
       img.src = cardData.image;
-      img.alt = `${cardData.name}`;
-      img.addEventListener("click", () => showZoomedCard(cardId));
+      img.alt = cardData.name;
+      img.addEventListener("click", () => {
+        showZoomedCard(cardId);
+      });
     } else {
       div.classList.add("locked");
       img.src = "cards/locked.png";
@@ -94,16 +96,8 @@ function handleScannedCard(cardId) {
     return;
   }
 
-  const encryptedKey = Object.entries(ENCRYPTED_CARD_MAP).find(([, val]) => val === cardId)?.[0];
-  if (!encryptedKey) return;
-
-  const saved = new Set(JSON.parse(localStorage.getItem("scannedCards")) || []);
-  if (!saved.has(encryptedKey)) {
-    saved.add(encryptedKey);
-    localStorage.setItem("scannedCards", JSON.stringify([...saved]));
-  }
-
   scannedCards.add(cardId);
+  saveScannedCards();
   updateLibrary();
 
   const { name, rarity } = CARD_LIBRARY[cardId];
@@ -117,9 +111,16 @@ function handleScannedCard(cardId) {
 function checkURLForCardScan() {
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("card");
-  const encrypted = raw?.split(";")[0];
-  const cardId = ENCRYPTED_CARD_MAP[encrypted];
-  if (cardId) handleScannedCard(cardId);
+  if (!raw) return;
+
+  const encryptedKey = raw.split(";")[0];
+  const cardId = ENCRYPTED_CARD_MAP[encryptedKey];
+
+  if (cardId) {
+    handleScannedCard(cardId);
+  } else {
+    document.getElementById("scan-result").innerText = `Unknown card: ${raw}`;
+  }
 }
 
 function setupButtons() {
@@ -171,7 +172,7 @@ function showZoomedCard(cardId) {
   modal.classList.remove("hidden");
 }
 
-// Scanner
+// QR Scanner
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -223,14 +224,11 @@ function scanLoop() {
       try {
         const parsed = new URL(code.data, window.location.origin);
         const raw = parsed.searchParams.get("card");
-        const encrypted = raw?.split(";")[0];
-        const cardId = ENCRYPTED_CARD_MAP[encrypted];
-
-        if (cardId) {
-          localStorage.setItem("scannedCardRedirect", raw);
-          window.location.href = `redirect.html`;
+        const encryptedKey = raw?.split(";")[0];
+        if (ENCRYPTED_CARD_MAP[encryptedKey]) {
+          localStorage.setItem("scannedCardRedirect", encryptedKey);
+          window.location.href = "redirect.html";
           stopScanner();
-          return;
         }
       } catch (e) {}
     }
