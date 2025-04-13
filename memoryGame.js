@@ -16,6 +16,14 @@ let zeroSecond = true;
 
 const intervalID = window.setInterval(timerDisplay, 1000);
 
+const ENCRYPTED_CARD_MAP = {
+  "v9a17x": "gcu1", "lm34kp": "gcu2", "bxt91w": "gcu3", "w72l8e": "gcu4", "qp3z5d": "gcu5",
+  "n80rca": "guc1", "t5mv0y": "guc2", "ux9b2g": "guc3", "fz2h1j": "guc4",
+  "m33ab9": "grc1", "k0xy71": "grc2", "e58gzd": "grc3",
+  "a1pq7n": "gec1", "y46ewv": "gec2",
+  "j94tu3": "glc1", "r7kx0q": "glc2"
+};
+
 const RARITY_MAP = {
   gcu1: "common", gcu2: "common", gcu3: "common", gcu4: "common", gcu5: "common",
   guc1: "uncommon", guc2: "uncommon", guc3: "uncommon", guc4: "uncommon",
@@ -35,9 +43,17 @@ function addResetListener() {
 }
 
 function generateGameCards() {
-  const unlocked = JSON.parse(localStorage.getItem("scannedCards")) || [];
-  const defaultCards = ["gcu1", "gcu2", "guc1", "guc2", "grc1", "grc2", "gec1", "gec2"];
-  const selectedCards = unlocked.length >= 8 ? shuffle(unlocked).slice(0, 8) : defaultCards;
+  const encrypted = JSON.parse(localStorage.getItem("scannedCards")) || [];
+  const decrypted = encrypted.map(slug => ENCRYPTED_CARD_MAP[slug]).filter(Boolean);
+
+  const container = document.getElementById("container");
+
+  if (decrypted.length < 8) {
+    container.innerHTML = "<p style='text-align:center; font-size: 18px;'>You need at least 8 unlocked cards to play the game.</p>";
+    return;
+  }
+
+  const selectedCards = shuffle(decrypted).slice(0, 8);
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
 
   const containerCards = document.querySelectorAll(".card");
