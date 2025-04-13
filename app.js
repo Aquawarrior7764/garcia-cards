@@ -26,27 +26,29 @@ const ENCRYPTED_CARD_MAP = {
 };
 
 (function handleRedirectEarly() {
-  const redirected = localStorage.getItem("scannedCardRedirect");
-  if (redirected) {
+  const redirectedCard = localStorage.getItem("scannedCardRedirect");
+  if (redirectedCard) {
     localStorage.removeItem("scannedCardRedirect");
-    const url = new URL(window.location.href);
-    url.searchParams.set("card", redirected);
-    window.location.replace(url.href);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set("card", redirectedCard);
+    window.location.replace(currentUrl.href);
   }
 })();
 
 let scannedCards = new Set();
 
 function loadScannedFromStorage() {
-  const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
-  const decrypted = saved.map(code => ENCRYPTED_CARD_MAP[code]).filter(Boolean);
-  scannedCards = new Set(decrypted);
+  const saved = JSON.parse(localStorage.getItem("scannedCards"));
+  if (saved && Array.isArray(saved)) {
+    const decrypted = saved.map(slug => ENCRYPTED_CARD_MAP[slug]).filter(Boolean);
+    scannedCards = new Set(decrypted);
+  }
   updateLibrary();
 }
 
 function saveScannedCards() {
   const encrypted = [...scannedCards].map(id =>
-    Object.entries(ENCRYPTED_CARD_MAP).find(([, val]) => val === id)?.[0]
+    Object.entries(ENCRYPTED_CARD_MAP).find(([key, val]) => val === id)?.[0]
   ).filter(Boolean);
   localStorage.setItem("scannedCards", JSON.stringify(encrypted));
 }
@@ -59,18 +61,18 @@ function updateLibrary() {
   container.innerHTML = "";
   counter.textContent = unlocked;
 
-  Object.entries(CARD_LIBRARY).forEach(([id, data]) => {
+  Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
     const div = document.createElement("div");
     div.classList.add("card");
 
     const img = document.createElement("img");
     img.classList.add("card-img");
 
-    if (scannedCards.has(id)) {
-      div.classList.add(`rarity-${data.rarity}`);
-      img.src = data.image;
-      img.alt = data.name;
-      img.onclick = () => showZoomedCard(id);
+    if (scannedCards.has(cardId)) {
+      div.classList.add(`rarity-${cardData.rarity}`);
+      img.src = cardData.image;
+      img.alt = `${cardData.name}`;
+      img.addEventListener("click", () => showZoomedCard(cardId));
     } else {
       div.classList.add("locked");
       img.src = "cards/locked.png";
@@ -86,17 +88,23 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function handleScannedCard(encrypted) {
-  const cardId = ENCRYPTED_CARD_MAP[encrypted];
-  if (!cardId || !(cardId in CARD_LIBRARY)) {
-    document.getElementById("scan-result").innerText = `Unknown card: ${encrypted}`;
+function handleScannedCard(cardId) {
+  if (!(cardId in CARD_LIBRARY)) {
+    document.getElementById("scan-result").innerText = `Unknown card: ${cardId}`;
     return;
   }
 
-  if (!scannedCards.has(cardId)) {
-    scannedCards.add(cardId);
-    saveScannedCards();
+  const encryptedKey = Object.entries(ENCRYPTED_CARD_MAP).find(([, val]) => val === cardId)?.[0];
+  if (!encryptedKey) return;
+
+  const saved = new Set(JSON.parse(localStorage.getItem("scannedCards")) || []);
+  if (!saved.has(encryptedKey)) {
+    saved.add(encryptedKey);
+    localStorage.setItem("scannedCards", JSON.stringify([...saved]));
   }
+
+  scannedCards.add(cardId);
+  updateLibrary();
 
   const { name, rarity } = CARD_LIBRARY[cardId];
   const recent = document.getElementById("recent-card");
@@ -104,35 +112,35 @@ function handleScannedCard(encrypted) {
   recent.innerText = `${name} (${capitalize(rarity)})`;
 
   document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
-  updateLibrary();
 }
 
 function checkURLForCardScan() {
   const params = new URLSearchParams(window.location.search);
-  const encrypted = params.get("card");
-  if (encrypted) handleScannedCard(encrypted);
+  const raw = params.get("card");
+  const encrypted = raw?.split(";")[0];
+  const cardId = ENCRYPTED_CARD_MAP[encrypted];
+  if (cardId) handleScannedCard(cardId);
 }
 
 function setupButtons() {
-  document.getElementById("reset-btn").onclick = () => {
+  document.getElementById("reset-btn").addEventListener("click", () => {
     if (confirm("Reset your collection? This cannot be undone.")) {
       localStorage.removeItem("scannedCards");
       scannedCards.clear();
       updateLibrary();
       document.getElementById("scan-result").innerText = "Scan a card QR to begin logging.";
-      const recent = document.getElementById("recent-card");
-      recent.className = "card-placeholder";
-      recent.innerHTML = "<p>No cards scanned yet.</p>";
+      document.getElementById("recent-card").innerHTML = "<p>No cards scanned yet.</p>";
+      document.getElementById("recent-card").className = "card-placeholder";
     }
-  };
+  });
 
-  document.getElementById("toggle-library-btn").onclick = () => {
+  document.getElementById("toggle-library-btn").addEventListener("click", () => {
     document.getElementById("library-container").classList.toggle("hidden");
-  };
+  });
 
-  document.getElementById("zoom-modal").onclick = () => {
+  document.getElementById("zoom-modal").addEventListener("click", () => {
     document.getElementById("zoom-modal").classList.add("hidden");
-  };
+  });
 }
 
 function showZoomedCard(cardId) {
@@ -142,22 +150,28 @@ function showZoomedCard(cardId) {
 
   overlay.innerHTML = "";
 
-  const banner = document.createElement("img");
-  banner.src = card.banner;
-  banner.alt = "Rarity banner";
-  banner.id = "zoom-banner";
+  const bannerWrap = document.createElement("div");
+  bannerWrap.className = `glow-container glow-banner glow-${card.rarity}`;
+  const bannerImg = document.createElement("img");
+  bannerImg.src = card.banner;
+  bannerImg.alt = "Rarity banner";
+  bannerImg.id = "zoom-banner";
+  bannerWrap.appendChild(bannerImg);
 
+  const cardWrap = document.createElement("div");
+  cardWrap.className = `glow-container glow-card glow-${card.rarity}`;
   const cardImg = document.createElement("img");
   cardImg.src = card.image;
   cardImg.alt = "Zoomed card";
   cardImg.id = "zoom-card-img";
+  cardWrap.appendChild(cardImg);
 
-  overlay.appendChild(banner);
-  overlay.appendChild(cardImg);
+  overlay.appendChild(bannerWrap);
+  overlay.appendChild(cardWrap);
   modal.classList.remove("hidden");
 }
 
-// QR SCANNER
+// Scanner
 let videoStream = null;
 let scannerRunning = false;
 const canvas = document.getElementById("scanner-canvas");
@@ -166,13 +180,13 @@ const video = document.getElementById("scanner-video");
 const scannerContainer = document.getElementById("scanner-container");
 const toggleBtn = document.getElementById("toggle-scanner-btn");
 
-toggleBtn.onclick = async () => {
+toggleBtn.addEventListener("click", async () => {
   if (scannerRunning) {
     stopScanner();
   } else {
     await startScanner();
   }
-};
+});
 
 async function startScanner() {
   try {
@@ -183,13 +197,15 @@ async function startScanner() {
     scannerContainer.style.display = "block";
     scannerRunning = true;
     requestAnimationFrame(scanLoop);
-  } catch {
+  } catch (err) {
     alert("Camera access denied or unavailable.");
   }
 }
 
 function stopScanner() {
-  if (videoStream) videoStream.getTracks().forEach(track => track.stop());
+  if (videoStream) {
+    videoStream.getTracks().forEach((track) => track.stop());
+  }
   scannerRunning = false;
   scannerContainer.style.display = "none";
 }
@@ -206,16 +222,20 @@ function scanLoop() {
     if (code?.data) {
       try {
         const parsed = new URL(code.data, window.location.origin);
-        const encrypted = parsed.searchParams.get("card");
-        if (encrypted) {
-          localStorage.setItem("scannedCardRedirect", encrypted);
+        const raw = parsed.searchParams.get("card");
+        const encrypted = raw?.split(";")[0];
+        const cardId = ENCRYPTED_CARD_MAP[encrypted];
+
+        if (cardId) {
+          localStorage.setItem("scannedCardRedirect", raw);
           window.location.href = `redirect.html`;
           stopScanner();
           return;
         }
-      } catch {}
+      } catch (e) {}
     }
   }
+
   requestAnimationFrame(scanLoop);
 }
 
