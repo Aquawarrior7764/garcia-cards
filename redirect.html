@@ -4,27 +4,25 @@
   <meta charset="UTF-8">
   <title>Redirecting...</title>
   <script>
-    const ENCRYPTED_CARD_MAP = {
-      a3x7kg: "gcu1", v7k9wm: "gcu2", ue3blt: "gcu3", z8tnyf: "gcu4", jq4huz: "gcu5",
-      w2hdxp: "guc1", pt4mry: "guc2", ke2tqn: "guc3", dh6avf: "guc4",
-      cx5nrz: "grc1", mf9zlx: "grc2", bt2dyg: "grc3",
-      nr7vku: "gec1", sa4pjw: "gec2",
-      qf3lta: "glc1", lh9vxm: "glc2"
-    };
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const cardId = params.get("card");
 
-    const params = new URLSearchParams(window.location.search);
-    const encrypted = params.get("card");
-    const cardId = ENCRYPTED_CARD_MAP[encrypted];
+      if (cardId) {
+        // Retrieve existing collection or start fresh
+        const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
+        const updated = new Set(saved);
+        updated.add(cardId);
 
-    if (cardId) {
-      const saved = JSON.parse(localStorage.getItem("scannedCards")) || [];
-      const updated = new Set(saved);
-      updated.add(cardId);
-      localStorage.setItem("scannedCards", JSON.stringify([...updated]));
-      window.location.href = `https://garciacards.net/?card=${encrypted}`;
-    } else {
-      window.location.href = "https://garciacards.net";
-    }
+        // Save back to localStorage
+        localStorage.setItem("scannedCards", JSON.stringify([...updated]));
+
+        // Redirect to main page with card parameter
+        window.location.href = `https://garciacards.net/?card=${cardId}`;
+      } else {
+        window.location.href = "https://garciacards.net";
+      }
+    });
   </script>
 </head>
 <body>
