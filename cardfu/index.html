@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CardFu!</title>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+  <link rel="shortcut icon" type="image/png" href="images/cardfu_favicon.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div id="content">
+    <canvas id="game-canvas" class="center-block" width="0" height="0"></canvas>
+
+    <div class="play-guide">
+      <h1>How to play</h1>
+      <p>Card Fu is a simple strategy card game based on Club Penguin’s Card-Jitsu. Each round, play a card. Win if your element beats theirs (Water > Fire > Ice > Water), or if same element, higher power wins. Collect 3 winning cards to win the game.</p>
+      <h3>Pro Tips!</h3>
+      <ul>
+        <li>Track your opponent’s needs and predict their move.</li>
+        <li>Counter their counter-move (or double-bluff them!).</li>
+        <li>Sometimes just go with your gut instinct.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="../jsqr.min.js"></script>
+  <script src="javascripts/game_client.js"></script>
+  <script src="javascripts/canvas.js"></script>
+  <script src="javascripts/konami.js"></script>
+</body>
+</html>
