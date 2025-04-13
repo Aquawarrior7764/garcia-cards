@@ -1,1 +1,12 @@
-g
+<!-- cardfu/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CardFu Placeholder</title>
+</head>
+<body>
+  <h1>This is the CardFu test page</h1>
+  <p>If you're seeing this, cardfu/ is working!</p>
+</body>
+</html>
