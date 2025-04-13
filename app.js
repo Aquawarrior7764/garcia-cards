@@ -92,15 +92,35 @@ function capitalize(str) {
 }
 
 function handleScannedCard(cardId) {
+  // cardId is already the DECRYPTED form like "grc2"
   if (!(cardId in CARD_LIBRARY)) {
     document.getElementById("scan-result").innerText = `Unknown card: ${cardId}`;
     return;
   }
 
-  if (!scannedCards.has(cardId)) {
-    scannedCards.add(cardId);
-    saveScannedCards();
+  const encryptedKey = Object.entries(ENCRYPTED_CARD_MAP).find(([, val]) => val === cardId)?.[0];
+  if (!encryptedKey) {
+    document.getElementById("scan-result").innerText = `Encrypted key not found for: ${cardId}`;
+    return;
   }
+
+  const saved = new Set(JSON.parse(localStorage.getItem("scannedCards")) || []);
+  if (!saved.has(encryptedKey)) {
+    saved.add(encryptedKey);
+    localStorage.setItem("scannedCards", JSON.stringify([...saved]));
+  }
+
+  // Add to working memory set
+  scannedCards.add(cardId);
+  updateLibrary();
+
+  const { name, rarity } = CARD_LIBRARY[cardId];
+  const recent = document.getElementById("recent-card");
+  recent.className = "card rarity-" + rarity;
+  recent.innerText = `${name} (${capitalize(rarity)})`;
+
+  document.getElementById("scan-result").innerText = `Scanned: ${name} (${capitalize(rarity)})`;
+}
 
   const { name, rarity } = CARD_LIBRARY[cardId];
   const recent = document.getElementById("recent-card");
