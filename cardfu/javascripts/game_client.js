@@ -1,7 +1,7 @@
 // This file manages the games client's logic. It's here that Socket.io connections are handled
 // and functions from canvas.js are used to manage the game's visual appearance.
 
-var socket = io();
+var socket = io("https://garcia-cardfu-server.onrender.com");
 var canPlayCard = false;
 var logFull = false;
 var playerPoints = [],
