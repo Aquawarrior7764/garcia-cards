@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Garcia Cards – Matching Game</title>
-  <link rel="stylesheet" href="memory.css?v=1.0.0" />
+  <link rel="stylesheet" href="memory.css?v=1.0.6" />
 </head>
 <body>
 
@@ -39,35 +39,28 @@
   </div>
 
   <script>
-    const CARD_LIBRARY = {
-      gcu1: { name: "GarciaCardCommon1", image: "cards/gcu1.png" },
-      gcu2: { name: "GarciaCardCommon2", image: "cards/gcu2.png" },
-      gcu3: { name: "GarciaCardCommon3", image: "cards/gcu3.png" },
-      gcu4: { name: "GarciaCardCommon4", image: "cards/gcu4.png" },
-      gcu5: { name: "GarciaCardCommon5", image: "cards/gcu5.png" },
-      guc1: { name: "GarciaCardUncommon1", image: "cards/guc1.png" },
-      guc2: { name: "GarciaCardUncommon2", image: "cards/guc2.png" },
-      guc3: { name: "GarciaCardUncommon3", image: "cards/guc3.png" },
-      guc4: { name: "GarciaCardUncommon4", image: "cards/guc4.png" },
-      grc1: { name: "GarciaCardRare1", image: "cards/grc1.png" },
-      grc2: { name: "GarciaCardRare2", image: "cards/grc2.png" },
-      grc3: { name: "GarciaCardRare3", image: "cards/grc3.png" },
-      gec1: { name: "GarciaCardEpic1", image: "cards/gec1.png" },
-      gec2: { name: "GarciaCardEpic2", image: "cards/gec2.png" },
-      glc1: { name: "GarciaCardLegendary1", image: "cards/glc1.png" },
-      glc2: { name: "GarciaCardLegendary2", image: "cards/glc2.png" }
+    const ENCRYPTED_CARD_MAP = {
+      a3x7kg: "gcu1", v7k9wm: "gcu2", ue3blt: "gcu3", z8tnyf: "gcu4", jq4huz: "gcu5",
+      w2hdxp: "guc1", pt4mry: "guc2", ke2tqn: "guc3", dh6avf: "guc4",
+      cx5nrz: "grc1", mf9zlx: "grc2", bt2dyg: "grc3",
+      nr7vku: "gec1", sa4pjw: "gec2",
+      qf3lta: "glc1", lh9vxm: "glc2"
     };
 
-    const unlockedCards = JSON.parse(localStorage.getItem("scannedCards")) || [];
-    const playableCards = Object.keys(CARD_LIBRARY).filter(id => unlockedCards.includes(id));
+    const CARD_LIBRARY = {};
+    for (const [enc, cardId] of Object.entries(ENCRYPTED_CARD_MAP)) {
+      CARD_LIBRARY[cardId] = { image: `cards/${cardId}.png` };
+    }
 
+    const unlocked = JSON.parse(localStorage.getItem("scannedCards")) || [];
+    const playable = Object.keys(CARD_LIBRARY).filter(id => unlocked.includes(id));
     const container = document.getElementById("container");
 
-    if (playableCards.length < 8) {
+    if (playable.length < 8) {
       container.innerHTML = "<p style='text-align:center;'>You need at least 8 unlocked cards to play the game.</p>";
     } else {
-      const selectedCards = playableCards.slice(0, 8);
-      const gameCards = [...selectedCards, ...selectedCards].sort(() => 0.5 - Math.random());
+      const selected = playable.slice(0, 8);
+      const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
 
       gameCards.forEach(cardId => {
         const card = document.createElement("div");
@@ -91,6 +84,6 @@
       });
     }
   </script>
-  <script src="memoryGame.js?v=1.0.6"></script>
+  <script src="memoryGame.js?v=1.0.7"></script>
 </body>
 </html>
