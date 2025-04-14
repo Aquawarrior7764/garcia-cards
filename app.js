@@ -62,11 +62,9 @@ function updateLibrary() {
   counter.textContent = unlocked;
   const contactSection = document.getElementById("contact-section");
 if (contactSection) {
-  if (unlocked === 16) {
-    contactSection.classList.remove("hidden");
-  } else {
-    contactSection.classList.add("hidden");
-  }
+  const totalCards = Object.keys(CARD_LIBRARY).length;
+  const hasAllCards = unlocked === totalCards;
+  contactSection.classList.toggle("hidden", !hasAllCards);
 }
 
   Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
