@@ -22,25 +22,9 @@
     <span id="timer">Time: 0</span>
   </div>
 
-<div id="container">
-  <!-- Create exactly 16 empty .card slots for the game to fill -->
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-  <div class="card"></div>
-</div>
+  <div id="container">
+    <!-- .card divs will be dynamically inserted -->
+  </div>
 
   <div id="modal-container">
     <div id="modal">
@@ -54,52 +38,6 @@
     <button onclick="window.location.href='index.html'">← Back to Main Site</button>
   </div>
 
-  <script>
-    const ENCRYPTED_CARD_MAP = {
-      a3x7kg: "gcu1", v7k9wm: "gcu2", ue3blt: "gcu3", z8tnyf: "gcu4", jq4huz: "gcu5",
-      w2hdxp: "guc1", pt4mry: "guc2", ke2tqn: "guc3", dh6avf: "guc4",
-      cx5nrz: "grc1", mf9zlx: "grc2", bt2dyg: "grc3",
-      nr7vku: "gec1", sa4pjw: "gec2",
-      qf3lta: "glc1", lh9vxm: "glc2"
-    };
-
-    const CARD_LIBRARY = {};
-    for (const [enc, cardId] of Object.entries(ENCRYPTED_CARD_MAP)) {
-      CARD_LIBRARY[cardId] = { image: `cards/${cardId}.png` };
-    }
-
-    const encrypted = JSON.parse(localStorage.getItem("scannedCards")) || [];
-    const decrypted = encrypted
-      .map(code => ENCRYPTED_CARD_MAP[code])
-      .filter(Boolean);
-    const shuffled = decrypted.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, Math.min(8, shuffled.length));
-    const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
-
-    const container = document.getElementById("container");
-
-    gameCards.forEach(cardId => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.dataset.cardId = cardId;
-
-      const inner = document.createElement("div");
-      inner.classList.add("card-inner");
-
-      const front = document.createElement("div");
-      front.classList.add("card-front");
-      front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
-
-      const back = document.createElement("div");
-      back.classList.add("card-back");
-
-      inner.appendChild(front);
-      inner.appendChild(back);
-      card.appendChild(inner);
-      container.appendChild(card);
-    });
-  </script>
-  
   <script src="memoryGame.js?v=1.0.7"></script>
 </body>
 </html>
