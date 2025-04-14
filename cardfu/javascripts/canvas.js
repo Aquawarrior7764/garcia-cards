@@ -126,15 +126,19 @@ function draw() {
 
 //////////  Initialization \\\\\\\\\\
 
-window.addEventListener("resize", handleResize, false);
-canvas.addEventListener("mousemove", handleMouseMove, false);
-canvas.addEventListener("mousedown", handleMouseDown, false);
-canvas.addEventListener("mouseup", handleMouseUp, false);
+window.addEventListener("load", () => {
+	init();
+	handleResize();
+	animate();
 
-// Add mobile support
-canvas.addEventListener("touchstart", handleMouseDown, false);
-canvas.addEventListener("touchend", handleMouseUp, false);
-canvas.addEventListener("touchmove", handleMouseMove, false);
+	window.addEventListener("resize", handleResize, false);
+	canvas.addEventListener("mousemove", handleMouseMove, false);
+	canvas.addEventListener("mousedown", handleMouseDown, false);
+	canvas.addEventListener("mouseup", handleMouseUp, false);
 
-init();
-animate();
+	canvas.addEventListener("touchstart", handleMouseDown, false);
+	canvas.addEventListener("touchend", handleMouseUp, false);
+	canvas.addEventListener("touchmove", handleMouseMove, false);
+
+	setInterval(animateLabels, 300);
+});
