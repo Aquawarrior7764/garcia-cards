@@ -53,61 +53,37 @@
     }
 
     const encrypted = JSON.parse(localStorage.getItem("scannedCards")) || [];
-const decrypted = encrypted
-  .map(code => ENCRYPTED_CARD_MAP[code])
-  .filter(Boolean);
-const shuffled = decrypted.sort(() => 0.5 - Math.random());
-const selected = shuffled.slice(0, Math.min(8, shuffled.length));
-const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
+    const decrypted = encrypted
+      .map(code => ENCRYPTED_CARD_MAP[code])
+      .filter(Boolean);
+    const shuffled = decrypted.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, Math.min(8, shuffled.length));
+    const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
+
     const container = document.getElementById("container");
 
-    const shuffled = playable.sort(() => 0.5 - Math.random());
-const selected = shuffled.slice(0, Math.min(8, shuffled.length));
-const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
+    gameCards.forEach(cardId => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.dataset.cardId = cardId;
 
-gameCards.forEach(cardId => {
-  const card = document.createElement("div");
-  card.classList.add("card");
-  card.dataset.cardId = cardId;
+      const inner = document.createElement("div");
+      inner.classList.add("card-inner");
 
-  const inner = document.createElement("div");
-  inner.classList.add("card-inner");
+      const front = document.createElement("div");
+      front.classList.add("card-front");
+      front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
 
-  const front = document.createElement("div");
-  front.classList.add("card-front");
-  front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
+      const back = document.createElement("div");
+      back.classList.add("card-back");
 
-  const back = document.createElement("div");
-  back.classList.add("card-back");
-
-  inner.appendChild(front);
-  inner.appendChild(back);
-  card.appendChild(inner);
-  container.appendChild(card);
-});
-
-      gameCards.forEach(cardId => {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.dataset.cardId = cardId;
-
-        const inner = document.createElement("div");
-        inner.classList.add("card-inner");
-
-        const front = document.createElement("div");
-        front.classList.add("card-front");
-        front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
-
-        const back = document.createElement("div");
-        back.classList.add("card-back");
-
-        inner.appendChild(front);
-        inner.appendChild(back);
-        card.appendChild(inner);
-        container.appendChild(card);
-      });
-    }
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+      container.appendChild(card);
+    });
   </script>
+  
   <script src="memoryGame.js?v=1.0.7"></script>
 </body>
 </html>
