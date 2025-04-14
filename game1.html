@@ -52,8 +52,13 @@
       CARD_LIBRARY[cardId] = { image: `cards/${cardId}.png` };
     }
 
-    const unlocked = JSON.parse(localStorage.getItem("scannedCards")) || [];
-    const playable = Object.keys(CARD_LIBRARY).filter(id => unlocked.includes(id));
+    const encrypted = JSON.parse(localStorage.getItem("scannedCards")) || [];
+const decrypted = encrypted
+  .map(code => ENCRYPTED_CARD_MAP[code])
+  .filter(Boolean);
+const shuffled = decrypted.sort(() => 0.5 - Math.random());
+const selected = shuffled.slice(0, Math.min(8, shuffled.length));
+const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
     const container = document.getElementById("container");
 
     const shuffled = playable.sort(() => 0.5 - Math.random());
