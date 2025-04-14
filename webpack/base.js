@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "development",
   devtool: "eval-source-map",
+  entry: "./multiplayer/src/index.js", // ✅ updated entry path
   module: {
     rules: [
       {
@@ -27,14 +28,19 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      root: path.resolve(__dirname, "../")
+      cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "../multiplayer/bundle.js")]
     }),
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
       WEBGL_RENDERER: JSON.stringify(true)
     }),
     new HtmlWebpackPlugin({
-      template: "./index.html"
+      filename: "multiplayer.html", // ✅ optional, avoids rebuilding your main index.html
+      template: "./multiplayer.html" // ✅ match your real HTML file name
     })
-  ]
+  ],
+  output: {
+    path: path.resolve(__dirname, "../multiplayer"), // ✅ put build output directly into multiplayer/
+    filename: "bundle.js"
+  }
 };
