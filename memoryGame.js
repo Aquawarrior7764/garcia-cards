@@ -48,10 +48,6 @@ function generateGameCards() {
 
   const container = document.getElementById("container");
 
-  if (decrypted.length < 8) {
-    container.innerHTML = "<p style='text-align:center; font-size: 18px;'>You need at least 8 unlocked cards to play the game.</p>";
-    return;
-  }
 
   const selectedCards = shuffle(decrypted).slice(0, 8);
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
