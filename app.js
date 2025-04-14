@@ -60,6 +60,11 @@ function updateLibrary() {
 
   container.innerHTML = "";
   counter.textContent = unlocked;
+  // Show contact form if all 16 cards are collected
+const contactSection = document.getElementById("contact-section");
+if (contactSection) {
+  contactSection.classList.toggle("hidden", unlocked < 16);
+}
 
   Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
     const div = document.createElement("div");
