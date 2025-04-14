@@ -56,11 +56,30 @@
     const playable = Object.keys(CARD_LIBRARY).filter(id => unlocked.includes(id));
     const container = document.getElementById("container");
 
-    if (playable.length < 8) {
-      container.innerHTML = "<p style='text-align:center;'>You need at least 8 unlocked cards to play the game.</p>";
-    } else {
-      const selected = playable.slice(0, 8);
-      const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
+    const shuffled = playable.sort(() => 0.5 - Math.random());
+const selected = shuffled.slice(0, Math.min(8, shuffled.length));
+const gameCards = [...selected, ...selected].sort(() => 0.5 - Math.random());
+
+gameCards.forEach(cardId => {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.dataset.cardId = cardId;
+
+  const inner = document.createElement("div");
+  inner.classList.add("card-inner");
+
+  const front = document.createElement("div");
+  front.classList.add("card-front");
+  front.style.backgroundImage = `url('${CARD_LIBRARY[cardId].image}')`;
+
+  const back = document.createElement("div");
+  back.classList.add("card-back");
+
+  inner.appendChild(front);
+  inner.appendChild(back);
+  card.appendChild(inner);
+  container.appendChild(card);
+});
 
       gameCards.forEach(cardId => {
         const card = document.createElement("div");
