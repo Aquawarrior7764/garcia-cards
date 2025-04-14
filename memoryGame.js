@@ -49,7 +49,7 @@ function generateGameCards() {
   const container = document.getElementById("container");
 
 
-  const selectedCards = shuffle(decrypted).slice(0, 8);
+  const selectedCards = shuffle(decrypted).slice(0, Math.min(8, decrypted.length));
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
 
   const containerCards = document.querySelectorAll(".card");
