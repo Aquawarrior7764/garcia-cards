@@ -48,19 +48,23 @@ function generateGameCards() {
 
   const container = document.getElementById("container");
 
+  if (decrypted.length < 1) {
+    container.innerHTML = "<p style='text-align:center; font-size: 18px;'>Scan at least one card to start.</p>";
+    return;
+  }
 
   const selectedCards = shuffle(decrypted).slice(0, Math.min(8, decrypted.length));
   const gameCards = shuffle([...selectedCards, ...selectedCards]);
 
-  const containerCards = document.querySelectorAll(".card");
+  container.innerHTML = ""; // clear any previous cards
 
-  containerCards.forEach((card, index) => {
-    const cardId = gameCards[index];
+  gameCards.forEach((cardId) => {
     const rarity = RARITY_MAP[cardId] || "common";
 
+    const card = document.createElement("div");
+    card.className = "card";
     card.dataset.cardId = cardId;
     card.dataset.rarity = rarity;
-    card.className = "card";
 
     const inner = document.createElement("div");
     inner.className = "card-inner";
@@ -74,8 +78,8 @@ function generateGameCards() {
 
     inner.appendChild(front);
     inner.appendChild(back);
-    card.innerHTML = "";
     card.appendChild(inner);
+    container.appendChild(card);
   });
 }
 
