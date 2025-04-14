@@ -140,28 +140,51 @@ function isOnLabel(event, label) {
 }
 
 function handleResize() {
-	if (logFull) console.log("%s(%j)", arguments.callee.name, Array.prototype.slice.call(arguments).sort());
-	if (window.innerWidth < window.innerHeight * aspect) {
-		canvas.width = window.innerWidth * 0.9;
-		canvas.height = window.innerWidth * 0.9 / aspect;
-		r = canvas.width / 1000;
+	const pixelRatio = window.devicePixelRatio || 1;
+
+	// Resize canvas to full screen width, keeping 16:10 aspect ratio
+	const maxWidth = window.innerWidth * 0.98;
+	const maxHeight = window.innerHeight * 0.7;
+
+	const ratioWidth = maxHeight * aspect;
+	const ratioHeight = maxWidth / aspect;
+
+	if (ratioWidth <= maxWidth) {
+		canvas.width = ratioWidth * pixelRatio;
+		canvas.height = maxHeight * pixelRatio;
+		canvas.style.width = `${ratioWidth}px`;
+		canvas.style.height = `${maxHeight}px`;
 	} else {
-		canvas.width = window.innerHeight * 0.9 * aspect;
-		canvas.height = window.innerHeight * 0.9;
-		r = canvas.height * aspect / 1000;
+		canvas.width = maxWidth * pixelRatio;
+		canvas.height = ratioHeight * pixelRatio;
+		canvas.style.width = `${maxWidth}px`;
+		canvas.style.height = `${ratioHeight}px`;
 	}
+
+	ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
+	ctx.scale(pixelRatio, pixelRatio); // Scale drawing operations
+
+	r = canvas.width / pixelRatio / 1000;
 	cardWidth = 120 * r;
 	cardHeight = cardWidth * 1.5;
+
 	if (handSlots) {
 		for (var i = 1; i < 6; i++) {
 			handSlots[i-1].position = {
-				x: canvas.width / 6 * i - cardWidth / 2,
-				y: canvas.height - cardHeight * 1.1
+				x: canvas.width / pixelRatio / 6 * i - cardWidth / 2,
+				y: canvas.height / pixelRatio - cardHeight * 1.1
 			};
 		}
 	}
-	playerCardPosition = {x: canvas.width * 0.17, y: canvas.height * 0.15};
-	opponentCardPosition = {x: canvas.width * 0.83 - cardWidth * 1.5, y: canvas.height * 0.15};
+
+	playerCardPosition = {
+		x: (canvas.width / pixelRatio) * 0.17,
+		y: (canvas.height / pixelRatio) * 0.15
+	};
+	opponentCardPosition = {
+		x: (canvas.width / pixelRatio) * 0.83 - cardWidth * 1.5,
+		y: (canvas.height / pixelRatio) * 0.15
+	};
 }
 
 //////////  Drawing  \\\\\\\\\\
