@@ -271,15 +271,15 @@ window.requestAnimFrame = (
 
 // === Load AFTER DOM is Ready ===
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 	init();
 	animate();
-	window.addEventListener("resize", handleResize);
-	canvas.addEventListener("mousemove", handleMouseMove);
-	canvas.addEventListener("mousedown", handleMouseDown);
-	canvas.addEventListener("mouseup", handleMouseUp);
-	canvas.addEventListener("touchstart", handleMouseDown);
-	canvas.addEventListener("touchend", handleMouseUp);
-	canvas.addEventListener("touchmove", handleMouseMove);
+	window.addEventListener("resize", handleResize, false);
+	canvas.addEventListener("mousemove", handleMouseMove, false);
+	canvas.addEventListener("mousedown", handleMouseDown, false);
+	canvas.addEventListener("mouseup", handleMouseUp, false);
+	canvas.addEventListener("touchstart", handleMouseDown, false);
+	canvas.addEventListener("touchend", handleMouseUp, false);
+	canvas.addEventListener("touchmove", handleMouseMove, false);
 	setInterval(animateLabels, 300);
 });
