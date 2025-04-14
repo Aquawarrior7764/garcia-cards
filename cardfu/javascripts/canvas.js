@@ -72,6 +72,9 @@ function handleResize() {
 function animate() {
 	requestAnimFrame(animate);
 	draw();
+	console.log("DRAW: canvas", canvas.width, canvas.height, "r =", r);
+console.log("LABELS", labels);
+console.log("LABEL FONT SIZE", labels["play"]?.size, "→ scaled:", (labels["play"]?.size ?? 0) * r);
 }
 
 function handleMouseMove(event) {
