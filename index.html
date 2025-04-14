@@ -15,23 +15,6 @@
     </button>
   </div>
 
-  <!-- 🔁 NEW: Multiplayer game button -->
-  <div style="margin-bottom: 30px; text-align: center;">
-    <a href="multiplayer.html" style="
-      display: inline-block;
-      font-size: 16px;
-      padding: 10px 25px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease;
-    " onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">
-      Play Multiplayer Game
-    </a>
-  </div>
-
   <p id="scan-result">Scan a card QR to begin logging.</p>
 
   <section id="recent-card-section">
@@ -64,6 +47,13 @@
       <img id="zoom-banner" src="" alt="Rarity banner" />
       <img id="zoom-card-img" src="" alt="Scanned card" />
     </div>
+  </div>
+
+  <!-- ✅ Disabled Multiplayer Button (Coming Soon) -->
+  <div style="margin: 40px auto 20px; text-align: center;">
+    <button id="multiplayer-button" class="coming-soon" disabled>
+      Multiplayer (Coming Soon)
+    </button>
   </div>
 
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
