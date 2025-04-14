@@ -24,27 +24,42 @@ function init() {
 }
 
 function handleResize() {
-	const vw = window.innerWidth;
-	const vh = window.innerHeight;
+	const cssWidth = canvas.clientWidth;
+	const cssHeight = canvas.clientHeight;
+	const pixelRatio = window.devicePixelRatio || 1;
 
-	canvas.width = vw;
-	canvas.height = vh;
+	canvas.width = cssWidth * pixelRatio;
+	canvas.height = cssHeight * pixelRatio;
 
-	r = vw / 1000;
+	ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset any transforms
+	ctx.scale(pixelRatio, pixelRatio); // Scale to device resolution
+
+	// Logical dimensions used for positioning
+	const logicalWidth = canvas.width / pixelRatio;
+	const logicalHeight = canvas.height / pixelRatio;
+
+	r = logicalWidth / 1000;
 	cardWidth = 120 * r;
 	cardHeight = cardWidth * 1.5;
 
-	for (let i = 1; i < 6; i++) {
-		if (handSlots[i - 1]) {
+	// Update positions
+	if (handSlots) {
+		for (var i = 1; i < 6; i++) {
 			handSlots[i - 1].position = {
-				x: (canvas.width / 6) * i - cardWidth / 2,
-				y: canvas.height - cardHeight - 20,
+				x: logicalWidth / 6 * i - cardWidth / 2,
+				y: logicalHeight - cardHeight * 1.1
 			};
 		}
 	}
 
-	playerCardPosition = { x: canvas.width * 0.2, y: canvas.height * 0.25 };
-	opponentCardPosition = { x: canvas.width * 0.8 - cardWidth, y: canvas.height * 0.25 };
+	playerCardPosition = {
+		x: logicalWidth * 0.17,
+		y: logicalHeight * 0.15
+	};
+	opponentCardPosition = {
+		x: logicalWidth * 0.83 - cardWidth * 1.5,
+		y: logicalHeight * 0.15
+	};
 }
 
 //////////  Event Fix: Use getBoundingClientRect \\\\\\\\\\
