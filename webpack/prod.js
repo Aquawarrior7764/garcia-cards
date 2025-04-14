@@ -6,9 +6,9 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./multiplayer/src/index.js",
+  entry: "./multiplayer/src/index.js", // ✅ Direct path to your actual game code
   output: {
-    path: path.resolve(__dirname, "../multiplayer"),
+    path: path.resolve(__dirname, "../multiplayer"), // ✅ Output to the folder your HTML uses
     filename: "bundle.js"
   },
   devtool: false,
@@ -44,8 +44,8 @@ module.exports = {
       WEBGL_RENDERER: JSON.stringify(true)
     }),
     new HtmlWebpackPlugin({
-      filename: "multiplayer.html",
-      template: "./multiplayer.html"
+      filename: "multiplayer.html",            // ✅ Output HTML file
+      template: "./multiplayer.html"           // ✅ Use your actual game page
     })
   ],
   optimization: {
