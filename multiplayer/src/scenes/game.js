@@ -18,6 +18,16 @@ export default class Game extends Phaser.Scene {
     create() {
         this.isPlayerA = false;
         this.opponentCards = [];
+        
+        // TEST: draw a white rectangle in the center of the screen
+const debugRect = this.add.rectangle(
+  this.scale.width / 2,
+  this.scale.height / 2,
+  100,
+  100,
+  0xffffff
+);
+debugRect.setOrigin(0.5);
 
         const centerX = this.scale.width / 2;
         const centerY = this.scale.height / 2;
