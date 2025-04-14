@@ -16,10 +16,19 @@ function init() {
 	canvas = document.getElementById("game-canvas");
 	ctx = canvas.getContext("2d");
 
+	labels["logo"] = new Label({ x: 0.5, y: 0.3 }, "Card Fu", 192, true, false, false, "ChineseTakeaway");
+	labels["play"] = new Label({ x: 0.5, y: 0.7 }, "Play!", 144, true, true, false, labelFont, enterQueue);
+	labels["searching"] = new Label({ x: 0.5, y: 0.7 }, "Searching   ", 144, false, false, false, labelFont);
+	labels["result"] = new Label({ x: 0.5, y: 0.3 }, "", 192, false, false, false, labelFont);
+	labels["rematch"] = new Label({ x: 0.5, y: 0.62 }, "Rematch", 128, false, false, false, labelFont, requestRematch);
+	labels["waiting"] = new Label({ x: 0.5, y: 0.62 }, "Waiting   ", 128, false, false, false, labelFont);
+	labels["main menu"] = new Label({ x: 0.5, y: 0.78 }, "Main Menu", 128, false, false, false, labelFont, exitMatch);
+	labels["timer"] = new Label({ x: 0.5, y: 0.1 }, 20, 64, false, false, false, labelFont);
+
 	handleResize();
 
 	handSlots = [];
-	for (var i = 1; i < 6; i++) {
+	for (let i = 1; i < 6; i++) {
 		handSlots.push({
 			position: {
 				x: canvas.width / 6 * i - cardWidth / 2,
@@ -28,15 +37,6 @@ function init() {
 			card: undefined
 		});
 	}
-
-	labels["logo"] = new Label({x: 0.5, y: 0.3}, "Card Fu", 192, true, false, false, "ChineseTakeaway");
-	labels["play"] = new Label({x: 0.5, y: 0.7}, "Play!", 144, true, true, false, labelFont, enterQueue);
-	labels["searching"] = new Label({x: 0.5, y: 0.7}, "Searching   ", 144, false, false, false, labelFont);
-	labels["result"] = new Label({x: 0.5, y: 0.3}, "", 192, false, false, false, labelFont);
-	labels["rematch"] = new Label({x: 0.5, y: 0.62}, "Rematch", 128, false, false, false, labelFont, requestRematch);
-	labels["waiting"] = new Label({x: 0.5, y: 0.62}, "Waiting   ", 128, false, false, false, labelFont);
-	labels["main menu"] = new Label({x: 0.5, y: 0.78}, "Main Menu", 128, false, false, false, labelFont, exitMatch);
-	labels["timer"] = new Label({x: 0.5, y: 0.1}, 20, 64, false, false, false, labelFont);
 }
 
 function handleResize() {
@@ -57,7 +57,7 @@ function handleResize() {
 	cardHeight = cardWidth * 1.5;
 
 	if (handSlots) {
-		for (var i = 1; i < 6; i++) {
+		for (let i = 1; i < 6; i++) {
 			handSlots[i - 1].position = {
 				x: canvas.width / 6 * i - cardWidth / 2,
 				y: canvas.height - cardHeight * 1.1
@@ -72,25 +72,22 @@ function handleResize() {
 function animate() {
 	requestAnimFrame(animate);
 	draw();
-	console.log("DRAW: canvas", canvas.width, canvas.height, "r =", r);
-console.log("LABELS", labels);
-console.log("LABEL FONT SIZE", labels["play"]?.size, "→ scaled:", (labels["play"]?.size ?? 0) * r);
 }
 
 function handleMouseMove(event) {
-	for (var i = 0; i < handSlots.length; i++) {
+	for (let i = 0; i < handSlots.length; i++) {
 		if (isOnSlot(event, handSlots[i])) {
 			if (!clickCursor) {
-				$("#game-canvas").css("cursor", "pointer");
+				canvas.style.cursor = "pointer";
 				clickCursor = true;
 			}
 			return;
 		}
 	}
-	for (i in labels) {
+	for (let i in labels) {
 		if (isOnLabel(event, labels[i])) {
 			if (!clickCursor) {
-				$("#game-canvas").css("cursor", "pointer");
+				canvas.style.cursor = "pointer";
 				clickCursor = true;
 			}
 			return;
@@ -98,12 +95,12 @@ function handleMouseMove(event) {
 			labels[i].down = false;
 		}
 	}
-	$("#game-canvas").css("cursor","auto");
+	canvas.style.cursor = "auto";
 	clickCursor = false;
 }
 
 function handleMouseDown(event) {
-	for (i in labels) {
+	for (let i in labels) {
 		if (isOnLabel(event, labels[i]) && labels[i].clickable && !labels[i].disabled) {
 			labels[i].down = true;
 			return;
@@ -112,7 +109,7 @@ function handleMouseDown(event) {
 }
 
 function handleMouseUp(event) {
-	for (i in labels) {
+	for (let i in labels) {
 		if (labels[i].down) {
 			labels[i].down = false;
 			if (labels[i].callback && labels[i].clickable) {
@@ -120,7 +117,7 @@ function handleMouseUp(event) {
 			}
 		}
 	}
-	for (var i = 0; i < handSlots.length; i++) {
+	for (let i = 0; i < handSlots.length; i++) {
 		if (isOnSlot(event, handSlots[i])) {
 			playCard(i);
 			playerCard = handSlots[i].card;
@@ -132,23 +129,23 @@ function handleMouseUp(event) {
 }
 
 function isOnSlot(event, slot) {
-	var x = (event.pageX - canvas.offsetLeft),
-		y = (event.pageY - canvas.offsetTop);
+	let x = event.pageX - canvas.offsetLeft;
+	let y = event.pageY - canvas.offsetTop;
 	return slot.card && canPlayCard &&
 		x > slot.position.x && x < slot.position.x + cardWidth &&
 		y > slot.position.y && y < slot.position.y + cardHeight;
 }
 
 function isOnLabel(event, label) {
-	var x = (event.pageX - canvas.offsetLeft),
-		y = (event.pageY - canvas.offsetTop);
+	let x = event.pageX - canvas.offsetLeft;
+	let y = event.pageY - canvas.offsetTop;
 	if (label.clickable) {
-		var labelWidth = label.text.length * label.size * r * 0.4;
-		var labelHeight = label.size * r;
-		var left = label.position.x * canvas.width - labelWidth / 2;
-		var right = label.position.x * canvas.width + labelWidth / 2;
-		var top = label.position.y * canvas.height - labelHeight / 2;
-		var bottom = label.position.y * canvas.height + labelHeight / 2;
+		let labelWidth = label.text.length * label.size * r * 0.4;
+		let labelHeight = label.size * r;
+		let left = label.position.x * canvas.width - labelWidth / 2;
+		let right = label.position.x * canvas.width + labelWidth / 2;
+		let top = label.position.y * canvas.height - labelHeight / 2;
+		let bottom = label.position.y * canvas.height + labelHeight / 2;
 		return x > left && x < right && y > top && y < bottom;
 	}
 	return false;
@@ -157,7 +154,7 @@ function isOnLabel(event, label) {
 function draw() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	if (displayCardSlots) {
-		for (var i = 0; i < handSlots.length; i++) {
+		for (let i = 0; i < handSlots.length; i++) {
 			if (handSlots[i].card) {
 				drawCard(handSlots[i].card, handSlots[i].position, 1);
 			} else {
@@ -168,13 +165,11 @@ function draw() {
 	drawPoints();
 	if (playerCard) drawCard(playerCard, playerCardPosition, 1.5);
 	if (opponentCard) {
-		if (opponentCard.isUnknown) {
-			drawUnknownCard(opponentCardPosition, 1.5);
-		} else {
-			drawCard(opponentCard, opponentCardPosition, 1.5);
-		}
+		opponentCard.isUnknown
+			? drawUnknownCard(opponentCardPosition, 1.5)
+			: drawCard(opponentCard, opponentCardPosition, 1.5);
 	}
-	for (i in labels) {
+	for (let i in labels) {
 		if (labels[i].visible) {
 			drawLabel(labels[i]);
 		}
@@ -236,19 +231,6 @@ function drawEmptySlot(slot) {
 	ctx.strokeRect(slot.position.x, slot.position.y, cardWidth, cardHeight);
 }
 
-function drawPoints() {
-	for (var i = 0; i < playerPoints.length; i++) {
-		for (var j = playerPoints[i].length - 1; j >= 0; j--) {
-			drawPointCard(playerPoints[i][j], {x: cardWidth * 0.55 * i + 10 * r, y: cardHeight * 0.5 * j * 0.2 + 10 * r}, 0.5);
-		}
-	}
-	for (var i = 0; i < opponentPoints.length; i++) {
-		for (var j = opponentPoints[i].length - 1; j >= 0; j--) {
-			drawPointCard(opponentPoints[i][j], {x: canvas.width - cardWidth * 0.55 * (3 - i) - 5 * r, y: cardHeight * 0.5 * j * 0.2 + 10 * r}, 0.5);
-		}
-	}
-}
-
 function drawLabel(label) {
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
@@ -261,16 +243,12 @@ function drawLabel(label) {
 	} else {
 		ctx.fillStyle = "#9a9a9a";
 	}
-	if (label.down) {
-		ctx.fillText(label.text, canvas.width * label.position.x + shadow * 0.5 * r, canvas.height * label.position.y + shadow * 0.5 * r);
-	} else {
-		ctx.fillText(label.text, canvas.width * label.position.x, canvas.height * label.position.y);
-	}
+	ctx.fillText(label.text, canvas.width * label.position.x, canvas.height * label.position.y);
 }
 
 // === Globals ===
 
-var handSlots, canvas, ctx, horizontalCenter, verticalCenter, clickPos, clickedCard, cardWidth, cardHeight, playerCardPosition, opponentCardPosition;
+var handSlots, canvas, ctx, cardWidth, cardHeight, playerCardPosition, opponentCardPosition;
 var clickCursor = false,
 	displayCardSlots = false,
 	aspect = 16 / 10,
@@ -278,7 +256,7 @@ var clickCursor = false,
 	labelFont = "RagingRedLotusBB";
 var typeColors = ["#FF8B26", "#1260E6", "#74D5F2"];
 var types = ["Fire", "Water", "Ice"];
-var colors = {"yellow": "#fdee00", "orange": "#ffb235", "green": "#52a546", "blue": "#246acd", "red": "#e02929", "purple": "#9738af"};
+var colors = { yellow: "#fdee00", orange: "#ffb235", green: "#52a546", blue: "#246acd", red: "#e02929", purple: "#9738af" };
 
 window.requestAnimFrame = (
 	window.requestAnimationFrame ||
@@ -291,15 +269,17 @@ window.requestAnimFrame = (
 	}
 );
 
-// === Startup ===
+// === Load AFTER DOM is Ready ===
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 	init();
 	animate();
+	window.addEventListener("resize", handleResize);
+	canvas.addEventListener("mousemove", handleMouseMove);
+	canvas.addEventListener("mousedown", handleMouseDown);
+	canvas.addEventListener("mouseup", handleMouseUp);
+	canvas.addEventListener("touchstart", handleMouseDown);
+	canvas.addEventListener("touchend", handleMouseUp);
+	canvas.addEventListener("touchmove", handleMouseMove);
+	setInterval(animateLabels, 300);
 });
-
-window.addEventListener("resize", handleResize, false);
-canvas?.addEventListener("mousemove", handleMouseMove, false);
-canvas?.addEventListener("mousedown", handleMouseDown, false);
-canvas?.addEventListener("mouseup", handleMouseUp, false);
-setInterval(animateLabels, 300);
