@@ -40,10 +40,10 @@
   <p>Send your picture and full name for your own digital card!</p>
 
   <form id="contact-form" action="https://formspree.io/f/xpwpnqok" method="POST" enctype="multipart/form-data">
-    <label for="message">Message:</label><br/>
+    <label for="message">Name and Message:</label><br/>
     <textarea name="message" required rows="4" style="width: 100%; margin-bottom: 10px;"></textarea><br/>
 
-    <label for="image">Optional image:</label><br/>
+    <label for="image">Your Card Image:</label><br/>
     <input type="file" name="image" accept="image/*"><br/><br/>
 
     <button type="submit" style="padding: 10px 20px; font-size: 14px;">Send</button>
@@ -75,7 +75,7 @@
   </div>
 
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
-  <script src="app.js?v=beta 1.0.6"></script>
+  <script src="app.js?v=beta 1.0.7"></script>
 
   <script>
     const gameBtn = document.getElementById("game-btn");
@@ -91,7 +91,7 @@
   </script>
 
   <p style="text-align:center; font-size: 12px; margin-top: 20px;">
-    vbeta 1.0.6 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
+    vbeta 1.0.7 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
   </p>
 </body>
 </html>
