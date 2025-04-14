@@ -15,15 +15,29 @@ function Label(position, text, size, visible, clickable, disabled, font, callbac
 function init() {
 	canvas = document.getElementById("game-canvas");
 	ctx = canvas.getContext("2d");
-	handleResize();
+
+	labels["logo"] = new Label({x: 0.5, y: 0.3}, "Card Fu", 192, true, false, false, "ChineseTakeaway");
+	labels["play"] = new Label({x: 0.5, y: 0.7}, "Play!", 144, true, true, false, labelFont, enterQueue);
+	labels["searching"] = new Label({x: 0.5, y: 0.7}, "Searching   ", 144, false, false, false, labelFont);
+	labels["result"] = new Label({x: 0.5, y: 0.3}, "", 192, false, false, false, labelFont);
+	labels["rematch"] = new Label({x: 0.5, y: 0.62}, "Rematch", 128, false, false, false, labelFont, requestRematch);
+	labels["waiting"] = new Label({x: 0.5, y: 0.62}, "Waiting   ", 128, false, false, false, labelFont);
+	labels["main menu"] = new Label({x: 0.5, y: 0.78}, "Main Menu", 128, false, false, false, labelFont, exitMatch);
+	labels["timer"] = new Label({x: 0.5, y: 0.1}, 20, 64, false, false, false, labelFont);
+
+	handleResize(); // MOVE THIS HERE — BEFORE handSlots setup!
 
 	handSlots = [];
 	for (var i = 1; i < 6; i++) {
 		handSlots.push({
-			position: { x: canvas.width / 6 * i - cardWidth / 2, y: canvas.height - cardHeight * 1.1 },
+			position: {
+				x: canvas.width / 6 * i - cardWidth / 2,
+				y: canvas.height - cardHeight * 1.1
+			},
 			card: undefined
 		});
 	}
+}
 
 	labels["logo"] = new Label({x: 0.5, y: 0.3}, "Card Fu", 192, true, false, false, "ChineseTakeaway");
 	labels["play"] = new Label({x: 0.5, y: 0.7}, "Play!", 144, true, true, false, labelFont, enterQueue);
