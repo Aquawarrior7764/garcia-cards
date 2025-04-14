@@ -3,15 +3,13 @@
 /* =================== */
 
 canvas {
-  border: 1px solid #000;
+  border: 1px solid black;
   display: block;
-  margin: 0 auto;
-  width: 95vw;
-  height: auto;
-  max-height: 60vh;
+  margin: 2vh auto;
+  width: 90vw;
+  max-width: 600px;
+  aspect-ratio: 16 / 10;
   background-color: #eee;
-  touch-action: none;
-  image-rendering: pixelated;
 }
 
 /* Base mobile reset */
