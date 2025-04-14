@@ -40,33 +40,33 @@ function init() {
 }
 
 function handleResize() {
-	let vw = window.innerWidth;
-	let vh = window.innerHeight;
+	const vw = window.innerWidth;
+	const vh = window.innerHeight;
 
-	if (vw < vh * aspect) {
-		canvas.width = Math.max(300, vw * 0.95);
-		canvas.height = canvas.width / aspect;
-		r = canvas.width / 1000;
-	} else {
-		canvas.height = Math.max(300, vh * 0.6);
-		canvas.width = canvas.height * aspect;
-		r = canvas.height * aspect / 1000;
-	}
+	const usableWidth = vw * 0.95;
+	const usableHeight = vh * 0.5;
 
+	canvas.width = usableWidth;
+	canvas.height = usableHeight;
+
+	const logicalWidth = canvas.width;
+	const logicalHeight = canvas.height;
+
+	r = logicalWidth / 1000;
 	cardWidth = 120 * r;
 	cardHeight = cardWidth * 1.5;
 
 	if (handSlots) {
 		for (let i = 1; i < 6; i++) {
 			handSlots[i - 1].position = {
-				x: canvas.width / 6 * i - cardWidth / 2,
-				y: canvas.height - cardHeight * 1.1
+				x: logicalWidth / 6 * i - cardWidth / 2,
+				y: logicalHeight - cardHeight * 1.1
 			};
 		}
 	}
 
-	playerCardPosition = { x: canvas.width * 0.17, y: canvas.height * 0.15 };
-	opponentCardPosition = { x: canvas.width * 0.83 - cardWidth * 1.5, y: canvas.height * 0.15 };
+	playerCardPosition = { x: logicalWidth * 0.17, y: logicalHeight * 0.15 };
+	opponentCardPosition = { x: logicalWidth * 0.83 - cardWidth * 1.5, y: logicalHeight * 0.15 };
 }
 
 function animate() {
