@@ -15,7 +15,22 @@
     </button>
   </div>
 
-  <a href="cardfu/index.html" class="btn btn-primary">Play Garcia Card Fu</a>
+  <!-- 🔁 NEW: Multiplayer game button -->
+  <div style="margin-bottom: 30px; text-align: center;">
+    <a href="multiplayer.html" style="
+      display: inline-block;
+      font-size: 16px;
+      padding: 10px 25px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    " onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">
+      Play Multiplayer Game
+    </a>
+  </div>
 
   <p id="scan-result">Scan a card QR to begin logging.</p>
 
@@ -52,7 +67,7 @@
   </div>
 
   <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
-  <script src="app.js?v=beta 1.0.2"></script>
+  <script src="app.js?v=beta 1.0.4"></script>
 
   <script>
     const gameBtn = document.getElementById("game-btn");
@@ -68,7 +83,7 @@
   </script>
 
   <p style="text-align:center; font-size: 12px; margin-top: 20px;">
-    vbeta 1.0.2 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
+    vbeta 1.0.4 – If your cards aren't scanning or updates don't show, try refreshing or clearing your browser cache.
   </p>
 </body>
 </html>
