@@ -142,48 +142,46 @@ function isOnLabel(event, label) {
 function handleResize() {
 	const pixelRatio = window.devicePixelRatio || 1;
 
-	// Resize canvas to full screen width, keeping 16:10 aspect ratio
-	const maxWidth = window.innerWidth * 0.98;
-	const maxHeight = window.innerHeight * 0.7;
+	// Desired canvas size in CSS pixels
+	const cssWidth = Math.min(window.innerWidth * 0.98, 600); // max width cap for mobile
+	const cssHeight = cssWidth / aspect;
 
-	const ratioWidth = maxHeight * aspect;
-	const ratioHeight = maxWidth / aspect;
+	// Set canvas display size (CSS)
+	canvas.style.width = cssWidth + "px";
+	canvas.style.height = cssHeight + "px";
 
-	if (ratioWidth <= maxWidth) {
-		canvas.width = ratioWidth * pixelRatio;
-		canvas.height = maxHeight * pixelRatio;
-		canvas.style.width = `${ratioWidth}px`;
-		canvas.style.height = `${maxHeight}px`;
-	} else {
-		canvas.width = maxWidth * pixelRatio;
-		canvas.height = ratioHeight * pixelRatio;
-		canvas.style.width = `${maxWidth}px`;
-		canvas.style.height = `${ratioHeight}px`;
-	}
+	// Set canvas resolution (actual pixels)
+	canvas.width = cssWidth * pixelRatio;
+	canvas.height = cssHeight * pixelRatio;
 
-	ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-	ctx.scale(pixelRatio, pixelRatio); // Scale drawing operations
+	ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+	ctx.scale(pixelRatio, pixelRatio); // scale canvas for sharp text
 
-	r = canvas.width / pixelRatio / 1000;
+	const logicalWidth = canvas.width / pixelRatio;
+	const logicalHeight = canvas.height / pixelRatio;
+
+	// Use logical width for scaling
+	r = logicalWidth / 1000;
 	cardWidth = 120 * r;
 	cardHeight = cardWidth * 1.5;
 
+	// Update hand slots
 	if (handSlots) {
 		for (var i = 1; i < 6; i++) {
-			handSlots[i-1].position = {
-				x: canvas.width / pixelRatio / 6 * i - cardWidth / 2,
-				y: canvas.height / pixelRatio - cardHeight * 1.1
+			handSlots[i - 1].position = {
+				x: logicalWidth / 6 * i - cardWidth / 2,
+				y: logicalHeight - cardHeight * 1.1
 			};
 		}
 	}
 
 	playerCardPosition = {
-		x: (canvas.width / pixelRatio) * 0.17,
-		y: (canvas.height / pixelRatio) * 0.15
+		x: logicalWidth * 0.17,
+		y: logicalHeight * 0.15
 	};
 	opponentCardPosition = {
-		x: (canvas.width / pixelRatio) * 0.83 - cardWidth * 1.5,
-		y: (canvas.height / pixelRatio) * 0.15
+		x: logicalWidth * 0.83 - cardWidth * 1.5,
+		y: logicalHeight * 0.15
 	};
 }
 
