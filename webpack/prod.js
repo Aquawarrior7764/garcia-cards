@@ -5,8 +5,9 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = merge(base, {
   mode: "production",
+  entry: "./multiplayer/src/index.js", // ✅ Correct entry path
   output: {
-    filename: "bundle.min.js"
+    filename: "bundle.js" // ✅ Matches the file loaded in multiplayer.html
   },
   devtool: false,
   performance: {
