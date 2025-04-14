@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import Game from "./scenes/game"
+import Game from "./scenes/game";
 
 const config = {
   type: Phaser.AUTO,
@@ -11,9 +11,7 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  scene: [GameScene]
+  scene: [Game] // ✅ Correct reference
 };
-
-const game = new Phaser.Game(config);
 
 const game = new Phaser.Game(config);
