@@ -60,10 +60,13 @@ function updateLibrary() {
 
   container.innerHTML = "";
   counter.textContent = unlocked;
-  // Show contact form if all 16 cards are collected
-const contactSection = document.getElementById("contact-section");
+  const contactSection = document.getElementById("contact-section");
 if (contactSection) {
-  contactSection.classList.toggle("hidden", unlocked < 16);
+  if (unlocked === 16) {
+    contactSection.classList.remove("hidden");
+  } else {
+    contactSection.classList.add("hidden");
+  }
 }
 
   Object.entries(CARD_LIBRARY).forEach(([cardId, cardData]) => {
