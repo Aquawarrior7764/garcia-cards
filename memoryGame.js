@@ -17,11 +17,26 @@ let zeroSecond = true;
 const intervalID = window.setInterval(timerDisplay, 1000);
 
 const ENCRYPTED_CARD_MAP = {
-  a3x7kg: "gcu1", v7k9wm: "gcu2", ue3blt: "gcu3", z8tnyf: "gcu4", jq4huz: "gcu5",
-  w2hdxp: "guc1", pt4mry: "guc2", ke2tqn: "guc3", dh6avf: "guc4",
-  cx5nrz: "grc1", mf9zlx: "grc2", bt2dyg: "grc3",
-  nr7vku: "gec1", sa4pjw: "gec2",
-  qf3lta: "glc1", lh9vxm: "glc2"
+  a3x7kg: "gcu1", // Cool Garcia
+  v7k9wm: "gcu2",
+  ue3blt: "gcu3",
+  z8tnyf: "gcu4",
+  jq4huz: "gcu5",
+
+  w2hdxp: "guc1",
+  pt4mry: "guc2",
+  ke2tqn: "guc3",
+  dh6avf: "guc4",
+
+  cx5nrz: "grc1",
+  mf9zlx: "grc2",
+  bt2dyg: "grc3",
+
+  nr7vku: "gec1",
+  sa4pjw: "gec2",
+
+  qf3lta: "glc1",
+  lh9vxm: "glc2"
 };
 
 const RARITY_MAP = {
