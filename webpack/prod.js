@@ -1,28 +1,60 @@
-const merge = require("webpack-merge");
+const webpack = require("webpack");
 const path = require("path");
-const base = require("./base");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-module.exports = merge(base, {
+module.exports = {
   mode: "production",
-  entry: "./multiplayer/src/index.js", // ✅ Correct entry path
+  entry: "./multiplayer/src/index.js",
   output: {
-    filename: "bundle.js" // ✅ Matches the file loaded in multiplayer.html
+    path: path.resolve(__dirname, "../multiplayer"),
+    filename: "bundle.js"
   },
   devtool: false,
   performance: {
     maxEntrypointSize: 900000,
     maxAssetSize: 900000
   },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      },
+      {
+        test: [/\.vert$/, /\.frag$/],
+        use: "raw-loader"
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg|xml)$/i,
+        use: "file-loader"
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "../multiplayer/bundle.js")]
+    }),
+    new webpack.DefinePlugin({
+      CANVAS_RENDERER: JSON.stringify(true),
+      WEBGL_RENDERER: JSON.stringify(true)
+    }),
+    new HtmlWebpackPlugin({
+      filename: "multiplayer.html",
+      template: "./multiplayer.html"
+    })
+  ],
   optimization: {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          output: {
-            comments: false
-          }
+          output: { comments: false }
         }
       })
     ]
   }
-});
+};
