@@ -36,7 +36,7 @@ function addResetListener() {
 
 function generateGameCards() {
   const encrypted = JSON.parse(localStorage.getItem("scannedCards")) || [];
-  const decrypted = encrypted.map(slug => ENCRYPTED_CARD_MAP[slug]).filter(Boolean);
+  const decrypted = encrypted.map(slug => window.ENCRYPTED_CARD_MAP[slug]).filter(Boolean);
 
   const container = document.getElementById("container");
 
