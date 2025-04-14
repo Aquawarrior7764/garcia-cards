@@ -16,16 +16,7 @@ function init() {
 	canvas = document.getElementById("game-canvas");
 	ctx = canvas.getContext("2d");
 
-	labels["logo"] = new Label({x: 0.5, y: 0.3}, "Card Fu", 192, true, false, false, "ChineseTakeaway");
-	labels["play"] = new Label({x: 0.5, y: 0.7}, "Play!", 144, true, true, false, labelFont, enterQueue);
-	labels["searching"] = new Label({x: 0.5, y: 0.7}, "Searching   ", 144, false, false, false, labelFont);
-	labels["result"] = new Label({x: 0.5, y: 0.3}, "", 192, false, false, false, labelFont);
-	labels["rematch"] = new Label({x: 0.5, y: 0.62}, "Rematch", 128, false, false, false, labelFont, requestRematch);
-	labels["waiting"] = new Label({x: 0.5, y: 0.62}, "Waiting   ", 128, false, false, false, labelFont);
-	labels["main menu"] = new Label({x: 0.5, y: 0.78}, "Main Menu", 128, false, false, false, labelFont, exitMatch);
-	labels["timer"] = new Label({x: 0.5, y: 0.1}, 20, 64, false, false, false, labelFont);
-
-	handleResize(); // MOVE THIS HERE — BEFORE handSlots setup!
+	handleResize();
 
 	handSlots = [];
 	for (var i = 1; i < 6; i++) {
@@ -37,7 +28,6 @@ function init() {
 			card: undefined
 		});
 	}
-}
 
 	labels["logo"] = new Label({x: 0.5, y: 0.3}, "Card Fu", 192, true, false, false, "ChineseTakeaway");
 	labels["play"] = new Label({x: 0.5, y: 0.7}, "Play!", 144, true, true, false, labelFont, enterQueue);
@@ -298,10 +288,15 @@ window.requestAnimFrame = (
 	}
 );
 
-init();
-animate();
+// === Startup ===
+
+document.addEventListener("DOMContentLoaded", function () {
+	init();
+	animate();
+});
+
 window.addEventListener("resize", handleResize, false);
-canvas.addEventListener("mousemove", handleMouseMove, false);
-canvas.addEventListener("mousedown", handleMouseDown, false);
-canvas.addEventListener("mouseup", handleMouseUp, false);
+canvas?.addEventListener("mousemove", handleMouseMove, false);
+canvas?.addEventListener("mousedown", handleMouseDown, false);
+canvas?.addEventListener("mouseup", handleMouseUp, false);
 setInterval(animateLabels, 300);
